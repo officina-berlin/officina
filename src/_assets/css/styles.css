@@ -8,12 +8,15 @@
   src: url('/_assets/fonts/Hany-m.otf') format('opentype');
 }
 
+/* Inter 4 variable (opsz + wght), subset to Latin and Latin Extended-A and
+   compressed to WOFF2 with fontTools `pyftsubset --layout-features='*'`.
+   The full TTFs were ~850 KB each. */
 @font-face {
   font-family: Inter;
   font-style: normal;
   font-weight: 100 900;
   font-display: swap;
-  src: url('/_assets/fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype');
+  src: url('/_assets/fonts/Inter-latin.woff2') format('woff2');
 }
 
 @font-face {
@@ -21,8 +24,7 @@
   font-style: italic;
   font-weight: 100 900;
   font-display: swap;
-  src: url('/_assets/fonts/Inter-Italic-VariableFont_opsz,wght.ttf')
-    format('truetype');
+  src: url('/_assets/fonts/Inter-Italic-latin.woff2') format('woff2');
 }
 
 @theme {

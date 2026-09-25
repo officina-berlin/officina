@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project
 
-Marketing site for Officina Kreuzberg, a member-run coworking space in Berlin. Eleventy 2 + Nunjucks + Tailwind 3, edited through Decap CMS, deployed on Netlify. Node 22 / yarn 1 (`.tool-versions`). There is no test suite and no linter — only `yarn format` (Prettier, also run on staged files by husky + lint-staged).
+Marketing site for Officina Kreuzberg, a member-run coworking space in Berlin. Eleventy 2 + Nunjucks + Tailwind 4, edited through Decap CMS, deployed on Netlify. Node 22 / yarn 1 (`.tool-versions`). There is no test suite and no linter — only `yarn format` (Prettier, also run on staged files by husky + lint-staged).
 
 ## Commands
 
@@ -15,7 +15,7 @@ yarn build    # prod: prebuild runs tailwind --minify, then ELEVENTY_ENV=product
 yarn format   # prettier --write on src
 ```
 
-CSS is **not** built by Eleventy. `npx tailwindcss` writes `src/_assets/css/styles.css` straight to `_site/css/styles.css`, outside the Eleventy pipeline. Running `yarn dev` or bare `eleventy` alone produces a site with no stylesheet; use `yarn start` / `yarn build`. `src/_assets/css/style.css` (singular) is in `.eleventyignore` but does not exist — the real entry point is `styles.css`.
+CSS is **not** built by Eleventy. `npx @tailwindcss/cli` writes `src/_assets/css/styles.css` straight to `_site/css/styles.css`, outside the Eleventy pipeline. There is no `tailwind.config.js`: theme tokens (colours, fonts, custom sizes) and `@source` paths live in `styles.css` itself, and `@source` paths are relative to that file. Running `yarn dev` or bare `eleventy` alone produces a site with no stylesheet; use `yarn start` / `yarn build`. `src/_assets/css/style.css` (singular) is in `.eleventyignore` but does not exist — the real entry point is `styles.css`.
 
 ## Architecture
 
@@ -28,11 +28,11 @@ Adding a section to a page usually means adding a front-matter field plus the ma
 
 ### Feature flags
 
-`src/_data/features.js` exposes `features.*` to every template. Currently one flag: `features.room`, off by default, overridable per build with `SHOW_ROOM=true`. It hides the private room offer that has not been agreed with the collective yet — the room section in `desks.njk`, FAQ entries marked `room: true`, and every piece of copy that mentions the room. Room-dependent copy lives in the content files as a `_room` variant next to the normal field (`meta_description` / `meta_description_room`, `availability` / `availability_room`, `key_facts` / `key_facts_room`, `contact_text` / `contact_text_room`, and per FAQ item `a` / `a_room`); the template picks the `_room` one only when the flag is on. `layout.njk` switches inline too: the fallback description, the JSON-LD `priceRange`, and the room entry in `makesOffer`. To retire the flag: drop the `_room` fields into their base fields, remove the `room:` markers, and delete `features.js` with its template conditionals.
+`src/_data/features.js` exposes `features.*` to every template. Currently one flag: `features.room`, off by default, overridable per build with `SHOW_ROOM=true`. It hides the private room offer that has not been agreed with the collective yet — the room card in `index.njk`, FAQ entries marked `room: true`, and every piece of copy that mentions the room. Room-dependent copy lives in the content files as a `_room` variant next to the normal field (`meta_description` / `meta_description_room`, `availability` / `availability_room`, `key_facts` / `key_facts_room`, `contact_text` / `contact_text_room`, and per FAQ item `a` / `a_room`); the template picks the `_room` one only when the flag is on. `layout.njk` switches inline too: the fallback description, the JSON-LD `priceRange`, and the room entry in `makesOffer`. To retire the flag: drop the `_room` fields into their base fields, remove the `room:` markers, and delete `features.js` with its template conditionals.
 
 ### Layouts
 
-`layout.njk` is the shell: `<head>` (SEO, hreflang, JSON-LD LocalBusiness with the real address and price range), header, `<main hx-boost="true">`, footer, cookie banner. Page layouts wrapping it: `desks.njk` (home), `collective.njk`, `artists.njk`, `events.njk`, and `landing.njk` (about — just includes `about.njk` + `what-we-do.njk` + `contact.njk`).
+`layout.njk` is the shell: `<head>` (SEO, hreflang, JSON-LD LocalBusiness with the real address and price range), header, `<main hx-boost="true">`, footer, cookie banner. Page layouts wrapping it: `index.njk` (home, both languages — hero, about, desk cards, trial-day calendar, FAQ), `collective.njk`, `artists.njk`, `events.njk`, and `landing.njk` (about — just includes `about.njk` + `what-we-do.njk` + `contact.njk`). The inner pages open with `page-hero.njk` (title, intro, tilted photo): set `heroText`, `heroAlt` and optionally `heroCta` / `heroCtaHref` before including it. Their style follows the home page: Hany titles, a `max-w-(--breakpoint-lg)` container, photos in `border-2 border-black rounded-xl` with a small rotation, and outline buttons (`border border-black rounded-xl px-3 py-1`). `imprint.njk` renders `/en/imprint` and `/de/imprint`: the legal facts come from `src/_data/legal.json` (one copy for both languages, editable in the CMS), only the labels are page front matter, and empty fields are hidden. The privacy policy (`src/de/privacy.md` is binding, `src/en/privacy.md` a translation, layout `text-page.njk`) describes every third party the site talks to – Netlify, PostHog (EU host, cookieless until consent), Google Calendar and Forms, OpenStreetMap tiles. Adding a service, an embed or a PostHog feature means updating both files. The trial-day calendar iframe has no `src` until the visitor clicks "Show the calendar" (`data-load-calendar` in `index.js`); the policy relies on Google getting nothing before that, so do not put the `src` back.
 
 SEO fields on a page: `seo_title` → `<title>`, `meta_description` → description/OG, `image` → OG image, `title` → the visible H1. Pages set `sitemapIgnore: true` to stay out of `sitemap.xml.njk`.
 
@@ -50,7 +50,7 @@ Two conventions coexist and they are easy to mix up:
 - The `{% image src, alt, width, classes %}` shortcode (`.eleventy.js`) prefixes a leading `.`, so `/src/…` resolves to the on-disk file. It runs eleventy-img, emits WebP at a single width (default 600) into `_site/img/`, and **throws if `alt` is undefined**.
 - For raw `src`/`href` in HTML (e.g. the OG tag in `layout.njk`), the served path is `/_assets/…` — `layout.njk` does `image | replace('/src/', '/')` to convert. `src/_assets` is passthrough-copied verbatim.
 
-Vendored browser deps (leaflet, htmx, posthog, universal-cookie, IBM Plex) are passthrough-copied out of `node_modules` in `.eleventy.js` and imported as plain ES modules by `src/_assets/js/index.js`; there is no bundler.
+Vendored browser deps (leaflet, htmx, posthog) are passthrough-copied out of `node_modules` in `.eleventy.js` and imported as plain ES modules by `src/_assets/js/index.js`; there is no bundler.
 
 ### i18n
 

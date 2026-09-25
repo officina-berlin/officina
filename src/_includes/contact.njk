@@ -1,22 +1,24 @@
-<div class="w-full md:mx-auto flex flex-col md:flex-row" id="contact">
-  <div id="map" class="h-auto md:w-1/2"></div>
-  <div class="md:w-1/2 bg-white z-10 relative min-h-180 flex">
-    <div class="px-4 py-16 flex flex-col justify-center gap-6 w-full max-w-xl mx-auto">
-      <h2 class="font-plex font-bold italic text-4xl text-center">
-        {{ contact_title or "Get in touch" }}
-      </h2>
-      <p class="text-center">
-        {{ (contact_text_room if features.room and contact_text_room else contact_text) or "If you are interested in renting a desk, please fill out this form" }}
-      </p>
-      <div class="text-center">
-        <a
-          href="https://docs.google.com/forms/d/e/1FAIpQLSe_aJwPcxRE_1LtocSHlrjHqDOQhm763ElOiURhH6KCOzL96g/viewform"
-          target="_blank"
-          class="text-white text-smc font-bold bg-black px-8 py-2 mt-4 inline-block transition-colors duration-150 hover:bg-blue-custom"
-        >
-          {{ contact_cta or "Click here for the form" }}
-        </a>
-      </div>
+<div class="max-w-(--breakpoint-lg) w-full mx-auto px-4 flex flex-col md:flex-row gap-12 md:items-center" id="contact">
+  <div class="md:w-1/2 flex flex-col gap-4">
+    <h2 class="font-bold font-hany text-3xl md:text-5xl leading-tight text-black">
+      {{ contact_title or "Get in touch" }}
+    </h2>
+    <p>
+      {{ (contact_text_room if features.room and contact_text_room else contact_text) or "If you are interested in renting a desk, please fill out this form" }}
+    </p>
+    <div>
+      <a
+        href="https://docs.google.com/forms/d/e/1FAIpQLSe_aJwPcxRE_1LtocSHlrjHqDOQhm763ElOiURhH6KCOzL96g/viewform"
+        target="_blank"
+        rel="noopener"
+        class="inline-block border border-black rounded-xl px-3 py-1 transition-colors duration-150 hover:bg-black hover:text-white"
+      >{{ contact_cta or "Click here for the form" }}</a>
     </div>
+  </div>
+  {#- Not tilted like the photos: Leaflet does not map pointer positions
+      through a CSS rotation. `z-0` keeps its panes (z-index 400+) under the
+      header and the cookie banner. #}
+  <div class="md:w-1/2 w-full">
+    <div id="map" class="relative z-0 h-80 md:h-96 border-2 border-black rounded-xl overflow-hidden"></div>
   </div>
 </div>

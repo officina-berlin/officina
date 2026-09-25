@@ -1,0 +1,167 @@
+---
+layout: layout.njk
+---
+{%- set formUrl = "https://docs.google.com/forms/d/e/1FAIpQLSe_aJwPcxRE_1LtocSHlrjHqDOQhm763ElOiURhH6KCOzL96g/viewform" -%}
+{%- set offers = [
+  { key: "fix_desk", title: fix_desk_title, content: fix_desk_content, image: fix_desk_image, alt: ui.fixDeskImageAlt, price: fix_desk_price, cta: apply_here, rotate: "-rotate-3" },
+  { key: "flex_desk", title: flex_desk_title, content: flex_desk_content, image: flex_desk_image, alt: ui.flexDeskImageAlt, price: flex_desk_price, cta: apply_here, rotate: "rotate-3" }
+] -%}
+{%- if features.room and room_title and room_image -%}
+  {%- set offers = offers.concat([{ key: "room", title: room_title, content: room_content, image: room_image, alt: ui.roomImageAlt, price: room_price, cta: room_apply or apply_here, rotate: "-rotate-3" }]) -%}
+{%- endif -%}
+<div class="flex flex-col gap-20 md:gap-32 pb-20 bg-[url('/_assets/img/smiley.svg')] bg-left-top bg-no-repeat bg-size-[535px]">
+  {#- First screen: what this is, what is free right now, the two next steps,
+      and the people – the photos back up "run by the people who work here". #}
+  <div class="max-w-(--breakpoint-lg) w-full mx-auto px-4 mt-10 md:mt-16 flex flex-col md:flex-row gap-10 md:gap-12 md:items-center">
+    <div class="md:w-[55%] flex flex-col gap-4">
+      <h1 class="font-bold font-hany text-4xl lg:text-5xl leading-tight text-black">
+        {{ title | safe }}
+      </h1>
+      {% if subtitle %}
+      <p class="font-bold text-xl lg:text-2xl text-black">{{ subtitle }}</p>
+      {% endif %}
+      {%- set availabilityLine = availability_room if features.room and availability_room else availability %}
+      {% if availabilityLine %}
+      <p>{{ availabilityLine | safe }}</p>
+      {% endif %}
+      <div class="flex flex-wrap gap-3 mt-2">
+        <a
+          href="#trial-calendar-box"
+          class="inline-block border border-black rounded-xl bg-black text-white px-4 py-2 transition-colors duration-150 hover:bg-white hover:text-black"
+        >{{ trial_cta or "Book a free trial day" }}</a>
+        <a
+          href="{{ formUrl }}"
+          data-ph-location="hero"
+          target="_blank"
+          rel="noopener"
+          class="inline-block border border-black rounded-xl px-4 py-2 transition-colors duration-150 hover:bg-black hover:text-white"
+        >{{ apply_here or "Apply for a desk" }}</a>
+      </div>
+    </div>
+    <div class="md:w-[45%] relative aspect-[10/9] shrink-0">
+      {% image "/src/_assets/images/uploads/IMG_3153.jpg", ui.workspaceImageAlt, 600, "border-2 border-black rounded-xl absolute w-3/5 h-auto -rotate-5 left-[3%] top-15" %}
+      {% image "/src/_assets/images/uploads/IMG_3146.jpg", "", 600, "border-2 border-black rounded-xl rotate-10 absolute z-10 w-3/5 h-auto right-[5%] top-[3%]" %}
+    </div>
+  </div>
+
+  <div class="max-w-(--breakpoint-lg) w-full mx-auto px-4 bg-[url('/_assets/img/desk.svg')] bg-no-repeat bg-right-bottom bg-size-[45%]">
+    <div class="md:w-1/2 flex flex-col gap-4">
+      <h2 class="font-bold font-hany text-3xl md:text-5xl leading-tight text-black">
+        {{ about_title or "About us" }}
+      </h2>
+      <div class="text-sm md:text-base text-black space-y-3">
+        {{ content | safe }}
+      </div>
+      <div>
+        <a href="/{{ page.lang }}/about" class="inline-block border border-black rounded-xl px-3 py-1 transition-colors duration-150 hover:bg-black hover:text-white">{{ about_cta or "More about us" }}</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="max-w-(--breakpoint-lg) w-full mx-auto px-4 flex flex-col gap-12">
+    <div class="flex flex-col gap-4">
+      <h2 class="font-bold font-hany text-3xl md:text-5xl leading-tight text-black">
+        {{ join_title or "Join us" }}
+      </h2>
+    </div>
+    <div class="grid gap-12 {{ "md:grid-cols-3" if offers | length > 2 else "md:grid-cols-2" }}">
+      {%- for offer in offers %}
+      <div class="flex flex-col gap-4">
+        <div class="border-2 border-black rounded-xl overflow-hidden {{ offer.rotate }}">
+          {% image offer.image, offer.alt, 600, "w-full aspect-[4/3] object-cover" %}
+        </div>
+        <h3 class="text-3xl font-hany mt-4">{{ offer.title }}</h3>
+        <div class="font-bold">{{ offer.price | safe }}</div>
+        <div class="space-y-3">{{ offer.content | safe }}</div>
+        <div class="mt-auto">
+          <a
+            href="{{ formUrl }}"
+            data-ph-location="{{ offer.key }}"
+            target="_blank"
+            rel="noopener"
+            class="inline-block border border-black rounded-xl px-3 py-1 transition-colors duration-150 hover:bg-black hover:text-white"
+          >{{ offer.cta or "Apply here" }}</a>
+        </div>
+      </div>
+      {%- endfor %}
+    </div>
+  </div>
+
+  <div class="flex flex-col gap-8 scroll-mt-8" id="trial-calendar-box">
+    <div class="max-w-(--breakpoint-lg) w-full mx-auto px-4 flex flex-col gap-4">
+      <h2 class="font-bold font-hany text-3xl md:text-5xl leading-tight text-black">
+        {{ trial_title or "Book a trial day" }}
+      </h2>
+      <p class="md:max-w-2xl">{{ trial_day_info }}</p>
+      {#- Google only hears about the visitor once they ask for the calendar
+          (see the privacy policy): the iframe has no src until this button is
+          clicked, and index.js swaps the two. #}
+      <div data-calendar-consent class="md:max-w-2xl border-2 border-black rounded-xl p-6 flex flex-col gap-4 items-start">
+        <p class="text-sm">
+          {{ ui.calendarNotice }}
+          <a href="/{{ page.lang }}/privacy" class="underline underline-offset-4">{{ ui.privacyPolicy }}</a>
+        </p>
+        <button
+          type="button"
+          data-load-calendar
+          class="cursor-pointer inline-block border border-black rounded-xl bg-black text-white px-3 py-1 transition-colors duration-150 hover:bg-white hover:text-black"
+        >{{ ui.calendarLoad }}</button>
+      </div>
+    </div>
+    <!-- Google Calendar Appointment Scheduling begin -->
+    {# hl follows the page, not the calendar owner's Google account – without it
+       the widget renders in the owner's language (French) for every visitor. #}
+    <iframe
+      id="trial-calendar"
+      data-src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ0FoukPWZdqXbKnv_z-1zWdyWML1c9FK6N1wqoegSUCbQiTVbGy5GgwRDh_A7qtVNwqgg_FWPwb?gv=true&hl={{ page.lang }}"
+      hidden
+      style="border: 0"
+      width="100%"
+      frameborder="0"
+      title="{{ ui.trialDayCalendar }}"
+      class="h-260 md:h-176"
+    ></iframe>
+    <!-- end Google Calendar Appointment Scheduling -->
+  </div>
+
+  {%- set faqItems = (faq or []) if features.room else ((faq or []) | rejectattr("room")) %}
+  {% if faqItems | length %}
+  <div class="max-w-(--breakpoint-lg) w-full mx-auto px-4" id="faq">
+    <h2 class="font-bold font-hany text-3xl md:text-5xl leading-tight text-black mb-8">
+      {{ faq_title or "Questions & answers" }}
+    </h2>
+    {#- The answers live in <details>, and not every crawler opens those – keep
+        the price, address, notice period and trial day in plain text as well. #}
+    {%- set keyFacts = key_facts_room if features.room and key_facts_room else key_facts %}
+    {% if keyFacts %}
+    <p class="md:max-w-2xl mb-8">{{ keyFacts | safe }}</p>
+    {% endif %}
+    <div class="md:max-w-2xl border-t border-b border-black divide-y divide-black">
+      {%- for item in faqItems %}
+      <details class="group py-4">
+        <summary class="cursor-pointer font-bold text-lgc list-none flex justify-between items-center gap-4">
+          <span>{{ item.q }}</span>
+          <span class="text-2xl leading-none transition group-open:rotate-45" aria-hidden="true">+</span>
+        </summary>
+        <div class="text-sm md:text-base mt-3 md:max-w-xl">{{ (item.a_room if features.room and item.a_room else item.a) | safe }}</div>
+      </details>
+      {%- endfor %}
+    </div>
+  </div>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {%- for item in faqItems %}
+      {
+        "@type": "Question",
+        "name": {{ item.q | dump | safe }},
+        "acceptedAnswer": { "@type": "Answer", "text": {{ (item.a_room if features.room and item.a_room else item.a) | striptags | dump | safe }} }
+      }{% if not loop.last %},{% endif %}
+      {%- endfor %}
+    ]
+  }
+  </script>
+  {% endif %}
+</div>

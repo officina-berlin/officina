@@ -22,6 +22,9 @@ collections:
           - { label: 'Intro', name: 'body', widget: 'markdown' }
           - { label: 'Availability line (under the intro)', name: 'availability', widget: 'text', required: false }
           - { label: 'Availability line – used instead while the room is on offer', name: 'availability_room', widget: 'text', required: false }
+          - { label: "'About us' title", name: 'about_title', widget: 'string', required: false }
+          - { label: "'About us' button", name: 'about_cta', widget: 'string', required: false }
+          - { label: "'Join us' title", name: 'join_title', widget: 'string', required: false }
           - { label: 'Featured image', name: 'image', widget: 'image' }
           - { label: 'Fix desk title', name: 'fix_desk_title', widget: 'string' }
           - { label: 'Fix desk content', name: 'fix_desk_content', widget: 'markdown' }
@@ -38,6 +41,8 @@ collections:
           - { label: 'Room price', name: 'room_price', widget: 'string', required: false }
           - { label: 'Desk button label', name: 'apply_here', widget: 'string' }
           - { label: 'Room button label', name: 'room_apply', widget: 'string', required: false }
+          - { label: 'Trial day title', name: 'trial_title', widget: 'string', required: false }
+          - { label: 'Trial day button (first screen)', name: 'trial_cta', widget: 'string', required: false }
           - { label: 'Trial day info', name: 'trial_day_info', widget: 'string' }
           - { label: 'FAQ title', name: 'faq_title', widget: 'string', required: false }
           - { label: 'Key facts (plain text under the FAQ title – price, address, notice period, trial day)', name: 'key_facts', widget: 'text', required: false }
@@ -109,6 +114,37 @@ collections:
           - { label: 'Description', name: 'body', widget: 'markdown' }
           - { label: 'Featured image', name: 'image', widget: 'image' }
 
+  - name: 'legal'
+    label: 'Legal'
+    files:
+      # Shared by /en/imprint and /de/imprint. Empty fields are hidden.
+      - label: 'Imprint details'
+        name: 'imprint'
+        file: 'src/_data/legal.json'
+        fields:
+          - { label: 'Name', name: 'name', widget: 'string' }
+          - { label: 'Legal form (e.g. e.V., GbR)', name: 'legal_form', widget: 'string', required: false }
+          - { label: 'Represented by (names of the people legally responsible)', name: 'represented_by', widget: 'string', required: false }
+          - { label: 'Street', name: 'street', widget: 'string' }
+          - { label: 'Postal code', name: 'postal_code', widget: 'string' }
+          - { label: 'City', name: 'city', widget: 'string' }
+          - { label: 'Email', name: 'email', widget: 'string' }
+          - { label: 'Phone', name: 'phone', widget: 'string', required: false }
+          - { label: 'Register entry (court and number)', name: 'register', widget: 'string', required: false }
+          - { label: 'VAT ID', name: 'vat_id', widget: 'string', required: false }
+          - { label: 'Responsible for content (§ 18 MStV)', name: 'responsible', widget: 'string', required: false }
+      - label: 'Privacy policy (German – the binding version)'
+        name: 'privacy_de'
+        file: 'src/de/privacy.md'
+        fields: &privacy_fields
+          - { label: 'Title (H1)', name: 'title', widget: 'string' }
+          - { label: 'SEO title (browser tab / Google)', name: 'seo_title', widget: 'string' }
+          - { label: 'SEO description (Google snippet)', name: 'meta_description', widget: 'text' }
+          - { label: 'Text ({{ legal.* }} is filled in from the imprint details)', name: 'body', widget: 'markdown' }
+      - label: 'Privacy policy (English translation)'
+        name: 'privacy_en'
+        file: 'src/en/privacy.md'
+        fields: *privacy_fields
   - name: 'artist' # Used in routes, e.g., /admin/collections/blog
     label: 'Residents (archive)' # Used in the UI
     folder: 'src/en/artists' # The path to the folder where the documents are stored

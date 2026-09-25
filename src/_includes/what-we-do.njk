@@ -1,43 +1,39 @@
-<div class="h-full min-h-full relative z-10 pb-48 bg-yellow-custom md:bg-transparent">
-  <div class="h-full max-w-screen-xl mx-auto px-4 flex flex-col md:flex-row md:gap-8 lg:gap-16">
-    <div class="md:w-1/4 mt-2 mb-8">
-      <h2 class="leading-none font-bold italic text-5xl text-black w-40">
-        {{ how_it_works_title or "How it works" }}
-      </h2>
-      <p class="text-smc text-black mt-6 leading-6">
-        {{ how_it_works_description or we_share_skills_description }}
-      </p>
-    </div>
-    <div class="md:w-3/4 grid gap-10 md:grid-cols-2 lg:grid-cols-3 md:items-start">
-      <div>
-        <h3 class="font-bold text-lgc mb-4">{{ collective_title or "The collective" }}</h3>
-        <p class="text-smc leading-6">
-          {{ the_collective }}
-        </p>
+<div class="max-w-(--breakpoint-lg) w-full mx-auto px-4 flex flex-col gap-12">
+  <div class="flex flex-col gap-4 md:max-w-2xl">
+    <h2 class="font-bold font-hany text-3xl md:text-5xl leading-tight text-black">
+      {{ how_it_works_title or "How it works" }}
+    </h2>
+    <p>{{ how_it_works_description or we_share_skills_description }}</p>
+  </div>
+  <div class="grid gap-12 md:grid-cols-3">
+    <div class="border-t-2 border-black pt-6 flex flex-col gap-4">
+      <h3 class="text-3xl font-hany">{{ collective_title or "The collective" }}</h3>
+      <p>{{ the_collective }}</p>
+      <div class="mt-auto">
         <a
           href="/{{ page.lang }}/collective"
-          class="text-white text-smc font-bold bg-black px-8 py-2 mt-4 inline-block transition-colors duration-150 hover:bg-blue-custom"
+          class="inline-block border border-black rounded-xl px-3 py-1 transition-colors duration-150 hover:bg-black hover:text-white"
         >{{ collective_cta or "Learn more" }}</a>
       </div>
-      <div>
-        <h3 class="font-bold text-lgc mb-4">{{ events_title or "Events" }}</h3>
-        <p class="text-smc leading-6">
-          {{ events }}
-        </p>
+    </div>
+    <div class="border-t-2 border-black pt-6 flex flex-col gap-4">
+      <h3 class="text-3xl font-hany">{{ events_title or "Events" }}</h3>
+      <p>{{ events }}</p>
+      <div class="mt-auto">
         <a
           href="/{{ page.lang }}/events"
-          class="text-white text-smc font-bold bg-black px-8 py-2 mt-4 inline-block transition-colors duration-150 hover:bg-blue-custom"
+          class="inline-block border border-black rounded-xl px-3 py-1 transition-colors duration-150 hover:bg-black hover:text-white"
         >{{ events_cta or "Learn more" }}</a>
       </div>
-      <div>
-        <h3 class="font-bold text-lgc mb-4">{{ residency_title or "Artist residency (archive)" }}</h3>
-        <p class="text-smc leading-6">
-          {{ art_residency }}
-        </p>
+    </div>
+    <div class="border-t-2 border-black pt-6 flex flex-col gap-4">
+      <h3 class="text-3xl font-hany">{{ residency_title or "Artist residency (archive)" }}</h3>
+      <p>{{ art_residency }}</p>
+      <div class="mt-auto">
         <a
           href="/en/artists"
           hreflang="en"
-          class="text-white text-smc font-bold bg-black px-8 py-2 mt-4 inline-block transition-colors duration-150 hover:bg-blue-custom"
+          class="inline-block border border-black rounded-xl px-3 py-1 transition-colors duration-150 hover:bg-black hover:text-white"
         >{{ residency_cta or "Learn more" }}</a>
         {%- if ui.englishOnly %}
         <p class="text-xs italic mt-2">{{ ui.englishOnly }}</p>

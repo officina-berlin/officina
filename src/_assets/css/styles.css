@@ -1,63 +1,87 @@
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+@import 'tailwindcss';
+
+@font-face {
+  font-family: Hany;
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url('/_assets/fonts/Hany-m.otf') format('opentype');
+}
+
+/* Inter 4 variable (opsz + wght), subset to Latin and Latin Extended-A and
+   compressed to WOFF2 with fontTools `pyftsubset --layout-features='*'`.
+   The full TTFs were ~850 KB each. */
+@font-face {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/_assets/fonts/Inter-latin.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: Inter;
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/_assets/fonts/Inter-Italic-latin.woff2') format('woff2');
+}
+
+@theme {
+  /* v4 defines breakpoints in rem, and html is 20px here, so the defaults
+     would be 25% wider than the v3 ones the layouts were built for. */
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1536px;
+
+  --font-sans: Inter, 'Helvetica Neue', Arial, sans-serif;
+  --font-hany: Hany, Inter, sans-serif;
+
+  --color-kobi: #efb0ca;
+  --color-salmon: #f7c2aa;
+  --color-blue-custom: #4d4dc3;
+  --color-yellow-custom: #fdff00;
+
+  --text-smc: 0.8rem;
+  --text-lgc: 1.2rem;
+  --text-7xl: 5rem;
+
+  --leading-65: 1.7rem;
+}
+
+/* Paths are relative to this file. `.md` is scanned too: page front matter
+   (FAQ answers, desk copy) contains inline HTML with Tailwind classes. */
+@source "../../**/*.njk";
+@source "../../**/*.md";
+@source "../../../node_modules/leaflet/dist/*.js";
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
 
 html {
   font-size: 20px;
   scroll-behavior: smooth;
 }
 
-.z-900 {
-  z-index: 900;
-}
-
-.font-plex {
-  font-family: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
-}
-
-/* salmon / blue-custom / yellow-custom now live in tailwind.config.js so the
+/* salmon / blue-custom / yellow-custom live in the @theme block above so the
    colours get hover: and other variants like any other Tailwind colour. */
-
-/* Keeps the black display type on about.njk readable where it overlaps the
-   duotone photo, without covering the photo with a panel. */
-.text-halo {
-  text-shadow: 0 0 0.6em rgba(255, 255, 255, 0.95),
-    0 0 1.4em rgba(255, 255, 255, 0.8);
-}
-
-.bg-yellow-circle::after {
-  content: '';
-  border-radius: 50%;
-  background-color: #fdff00;
-  width: 1em;
-  position: absolute;
-  bottom: -77em;
-  left: -25em;
-  height: 110rem;
-  width: 110rem;
-  -webkit-user-selectz-index: 1;
-}
-
-@media (max-width: 639px) {
-  .bg-yellow-circle::after {
-    content: '';
-    border-radius: 50%;
-    background-color: #fdff00;
-    width: 1em;
-    position: absolute;
-    bottom: -41em;
-    left: -25em;
-    height: 49rem;
-    width: 50rem;
-    -webkit-user-selectz-index: 1;
-  }
-}
-
-@media (min-width: 768px) {
-  .md\:overflow-unset {
-    overflow: unset;
-  }
-}
 
 .card-container {
   position: absolute;

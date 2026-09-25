@@ -1,5 +1,5 @@
 ---
-layout: desks.njk
+layout: index.njk
 permalink: /en/index.html
 title: Coworking in Berlin Kreuzberg
 subtitle: Run by the people who work here.
@@ -20,14 +20,14 @@ fix_desk_title: Fix desk
 fix_desk_content: >-
   Your own desk, all the time. Leave your screen, books and gear, come and go
   whenever you want – 24/7, weekends included.
-fix_desk_image: /src/_assets/images/uploads/officina_space_web_8.jpg
+fix_desk_image: /src/_assets/img/fix-desk.webp
 fix_desk_price: 255 €/month<br/>incl. VAT
 flex_desk_title: Flex desk
 flex_desk_content: >-
   Just need a laptop and a good chair? A flex desk is shared with other
   members. Use the space three days a week plus weekends, and be part of the
   collective like everyone else.
-flex_desk_image: /src/_assets/images/uploads/officina_space_web_1.jpg
+flex_desk_image: /src/_assets/img/flex-desk.webp
 flex_desk_price: 155 €/month<br/>incl. VAT
 room_title: Private room
 room_content: >-
@@ -36,8 +36,13 @@ room_content: >-
   wants quiet and wall space. One price for the room, whether you're one person
   or three. Everything the desks get – 24/7 access, kitchen, terrace, internet –
   and you're part of the collective like everyone else.
-room_image: /src/_assets/images/uploads/officina_space_web_7.jpg
+room_image: /src/_assets/img/rent-space.webp
 room_price: 600 €/month<br/>incl. VAT
+about_title: About us
+about_cta: More about us
+join_title: Join us
+trial_title: Book a trial day
+trial_cta: Book a free trial day
 apply_here: Apply for a desk
 room_apply: Apply for the room
 trial_day_info: >-

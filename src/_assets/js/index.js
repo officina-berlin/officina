@@ -167,7 +167,9 @@ let trialCalendarCaptured = false;
 document.body.addEventListener('htmx:load', function () {
   if (trialCalendarCaptured || !('IntersectionObserver' in window)) return;
 
-  const calendar = document.getElementById('trial-calendar');
+  // The section, not the iframe: the iframe stays hidden until the visitor
+  // asks for it, and a hidden element never intersects.
+  const calendar = document.getElementById('trial-calendar-box');
   if (!calendar) return;
 
   if (trialCalendarObserver) trialCalendarObserver.disconnect();
@@ -190,6 +192,26 @@ document.body.addEventListener('htmx:load', function () {
   );
 
   trialCalendarObserver.observe(calendar);
+});
+
+// The iframe ships without a src, so Google gets nothing – not even the IP
+// address – until the visitor clicks "Show the calendar"; the privacy policy
+// relies on that. Delegated and bound once, like the sidebar: the button sits
+// in <main>, which htmx swaps. Asking for the calendar is also a stronger
+// signal than scrolling past it, so it gets its own event.
+document.addEventListener('click', function (event) {
+  if (!(event.target instanceof Element)) return;
+
+  const button = event.target.closest('[data-load-calendar]');
+  if (!button) return;
+
+  const calendar = document.getElementById('trial-calendar');
+  if (!calendar || !calendar.dataset.src) return;
+
+  calendar.src = calendar.dataset.src;
+  calendar.hidden = false;
+  button.closest('[data-calendar-consent]')?.remove();
+  posthog.capture('trial_calendar_load');
 });
 
 // Reaching the calendar is not the same as using it, and the booking itself is

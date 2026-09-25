@@ -2,70 +2,64 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## Project Overview
+## Project
 
-This is the Officina website - a multilingual (English/German) Eleventy-powered static site for a Berlin-based creative coworking space. The site showcases their collective, artist residencies, events, and desk rental services.
+Marketing site for Officina Kreuzberg, a member-run coworking space in Berlin. Eleventy 2 + Nunjucks + Tailwind 4, edited through Decap CMS, deployed on Netlify. Node 22 / yarn 1 (`.tool-versions`). There is no test suite and no linter — only `yarn format` (Prettier, also run on staged files by husky + lint-staged).
 
-## Common Development Commands
+## Commands
 
-### Development
-- `yarn start` - Starts development server with TailwindCSS watch mode and Eleventy hot reload
-- `yarn dev` - Runs Eleventy in development mode with watch and serve
-- `yarn tailwind` - Watches and compiles TailwindCSS styles
+```bash
+yarn install
+yarn start    # dev: tailwind --watch + eleventy --serve concurrently (http://localhost:8080)
+yarn build    # prod: prebuild runs tailwind --minify, then ELEVENTY_ENV=production eleventy
+yarn format   # prettier --write on src
+```
 
-### Building
-- `yarn build` - Builds production site with minified CSS to `_site/` directory
-- `yarn prebuild` - Compiles and minifies TailwindCSS (runs automatically before build)
-
-### Code Quality
-- `yarn format` - Formats code using Prettier for JS, JSON, CSS, MD, and RB files
-- Git hooks automatically format code on commit using husky and lint-staged
+CSS is **not** built by Eleventy. `npx @tailwindcss/cli` writes `src/_assets/css/styles.css` straight to `_site/css/styles.css`, outside the Eleventy pipeline. There is no `tailwind.config.js`: theme tokens (colours, fonts, custom sizes) and `@source` paths live in `styles.css` itself, and `@source` paths are relative to that file. Running `yarn dev` or bare `eleventy` alone produces a site with no stylesheet; use `yarn start` / `yarn build`. `src/_assets/css/style.css` (singular) is in `.eleventyignore` but does not exist — the real entry point is `styles.css`.
 
 ## Architecture
 
-### Site Generator: Eleventy (11ty)
-- **Input:** `src/` directory
-- **Output:** `_site/` directory for production builds
-- **Templates:** Nunjucks (`.njk`) files in `src/_includes/`
-- **Content:** Markdown files in language-specific directories (`src/en/`, `src/de/`)
+### Two kinds of content
 
-### Internationalization
-- Uses `@11ty/eleventy` i18n plugin with English as default language
-- Content organized in `src/en/` and `src/de/` directories
-- Computed data in `src/_data/eleventyComputed.js` provides localized navigation menus
-- URL structure: `/en/` and `/de/` for language-specific pages
+1. **Pages** — `src/en/*.md` and `src/de/*.md`. Each declares an explicit `permalink` (`/en/about.html`, `/en/events/index.html`, …) and a `layout`. Almost all their copy lives in front matter fields (`fix_desk_title`, `the_collective`, `contact_cta`, …) which the `.njk` layouts read as bare Nunjucks variables, usually with an inline English fallback (`{{ contact_cta or "Click here for the form" }}`). The markdown body renders as `{{ content | safe }}`.
+2. **Collection items** — `src/en/{collective,artists,events}/*.md`. Each folder has a directory data file (`collective.json` etc.) containing `{ "permalink": false }`, so items never become pages. They are pulled into a page by their `tags` value: `collections.collective`, `collections.artist`, `collections.event`, sorted with the custom filters `sortByPosition` / `sortByDateDesc` (`sortByName` exists but is unused and would not work — it subtracts strings). Item bodies render via `item.templateContent`.
 
-### Content Management
-- **Netlify CMS** configured in `src/admin/config.yml`
-- Manages collections: site pages, artists, collective members, events
-- Git-based workflow with git-gateway backend
-- Media files stored in `src/_assets/images/uploads/`
+Adding a section to a page usually means adding a front-matter field plus the matching field in `src/admin/config.yml`, not adding a template.
 
-### Styling & Assets
-- **TailwindCSS** for styling with custom configuration in `tailwind.config.js`
-- **PostCSS** with autoprefixer for CSS processing
-- **IBM Plex** fonts integrated from npm package
-- **Eleventy Image** plugin for optimized WebP image generation
-- Assets in `src/_assets/` copied to build output
+### Feature flags
 
-### Key Features
-- **Image optimization:** Custom async shortcode using `@11ty/eleventy-img`
-- **Interactive elements:** HTMX for progressive enhancement
-- **Maps:** Leaflet integration for location display
-- **Analytics:** PostHog integration with cookie consent banner
-- **Responsive design:** TailwindCSS with custom breakpoints and utilities
+`src/_data/features.js` exposes `features.*` to every template. Currently one flag: `features.room`, off by default, overridable per build with `SHOW_ROOM=true`. It hides the private room offer that has not been agreed with the collective yet — the room card in `index.njk`, FAQ entries marked `room: true`, and every piece of copy that mentions the room. Room-dependent copy lives in the content files as a `_room` variant next to the normal field (`meta_description` / `meta_description_room`, `availability` / `availability_room`, `key_facts` / `key_facts_room`, `contact_text` / `contact_text_room`, and per FAQ item `a` / `a_room`); the template picks the `_room` one only when the flag is on. `layout.njk` switches inline too: the fallback description, the JSON-LD `priceRange`, and the room entry in `makesOffer`. To retire the flag: drop the `_room` fields into their base fields, remove the `room:` markers, and delete `features.js` with its template conditionals.
 
-### Content Structure
-- **Collective members:** Individual markdown files in `src/en/collective/`
-- **Artists:** Residency profiles in `src/en/artists/`
-- **Events:** Event listings in `src/en/events/`
-- **Pages:** Main site pages (about, desks, etc.) as markdown with custom layouts
+### Layouts
 
-### Deployment
-- **Netlify** deployment configured in `netlify.toml`
-- Build command: `npm run build`
-- Publish directory: `_site/`
-- Language-based redirects configured for home page
+`layout.njk` is the shell: `<head>` (SEO, hreflang, JSON-LD LocalBusiness with the real address and price range), header, `<main hx-boost="true">`, footer, cookie banner. Page layouts wrapping it: `index.njk` (home, both languages — hero, about, desk cards, trial-day calendar, FAQ), `collective.njk`, `artists.njk`, `events.njk`, and `landing.njk` (about — just includes `about.njk` + `what-we-do.njk` + `contact.njk`).
 
-### Dependencies
-Key runtime dependencies include HTMX for interactivity, PostHog for analytics, Leaflet for maps, and Universal Cookie for consent management.
+SEO fields on a page: `seo_title` → `<title>`, `meta_description` → description/OG, `image` → OG image, `title` → the visible H1. Pages set `sitemapIgnore: true` to stay out of `sitemap.xml.njk`.
+
+Every absolute URL (canonical, hreflang, `og:url`, JSON-LD, sitemap) comes from the `absoluteUrl` filter in `.eleventy.js`, whose base is `https://www.officina.berlin`. Netlify 301s the apex to www, so that base and the `Sitemap:` line in `src/robots.txt` have to stay on the www host or every canonical points at a redirect.
+
+`<lastmod>` in the sitemap is the date of the last commit that touched the page's source file — the `lastModified` filter walks `git log` once per build and caches it — and is left out entirely when git has nothing for that file. Don't go back to `page.date`: Netlify clones fresh on every build, so mtimes are the deploy time and every page would look like it changed.
+
+`src/llms.txt.njk` renders `/llms.txt` for AI assistants from the English home page's front matter (desk titles, prices, availability and every FAQ answer, HTML stripped), so CMS edits reach it without a second copy of the facts. The same reasoning drives the `key_facts` field: the FAQ answers sit inside `<details>`, which not every crawler expands, so price, address, notice period and trial-day terms are repeated as plain text above the accordion.
+
+### Images
+
+Two conventions coexist and they are easy to mix up:
+
+- Front matter written by the CMS uses `/src/_assets/images/uploads/foo.jpg` (Decap's `media_folder` is `/src/_assets/images/uploads` with no `public_folder`).
+- The `{% image src, alt, width, classes %}` shortcode (`.eleventy.js`) prefixes a leading `.`, so `/src/…` resolves to the on-disk file. It runs eleventy-img, emits WebP at a single width (default 600) into `_site/img/`, and **throws if `alt` is undefined**.
+- For raw `src`/`href` in HTML (e.g. the OG tag in `layout.njk`), the served path is `/_assets/…` — `layout.njk` does `image | replace('/src/', '/')` to convert. `src/_assets` is passthrough-copied verbatim.
+
+Vendored browser deps (leaflet, htmx, posthog, IBM Plex) are passthrough-copied out of `node_modules` in `.eleventy.js` and imported as plain ES modules by `src/_assets/js/index.js`; there is no bundler.
+
+### i18n
+
+`EleventyI18nPlugin` with `defaultLanguage: 'en'`; language comes from the `src/en` / `src/de` directory. `src/_data/eleventyComputed.js` maps `page.lang` to the translated `menu` labels used by `header.njk`. German is partial — only `index.md` and `about.md` exist under `src/de`, and the header's collective/events links are hardcoded to `/en/…` for both languages. Netlify does the language negotiation for `/` (see `netlify.toml`): `Accept-Language: de` → `/de/`, everything else → `/en/`.
+
+### Client behaviour
+
+Navigation is htmx-boosted: nav links carry `hx-get`/`hx-select="main"`/`hx-target="main"`/`hx-push-url`, and `<main>` has `hx-boost`. **Consequence: all page-level JS in `src/_assets/js/index.js` is registered on `htmx:load`, not `DOMContentLoaded`.** Anything new (map init, listeners) must follow that or it will break after the first client-side navigation. PostHog only initialises when the `officina-tracking` cookie is `accepted`, and is disabled on `localhost`.
+
+### CMS and deploy
+
+`/admin` runs Decap CMS via git-gateway on branch **`master`** — content editors commit straight to master, so schema changes in `src/admin/config.yml` must match the front-matter keys the templates read, or the CMS will silently drop fields on save. Netlify builds `npm run build` and publishes `_site/`; `netlify.toml` also holds the 301s for the retired `/en/desks` page (its content moved into `src/en/index.md`).

@@ -1,95 +1,140 @@
 ---
 layout: layout.njk
 ---
-<div class="flex flex-col gap-20 bg-[url('/_assets/img/smiley.svg')] bg-left bg-no-repeat bg-contain bg-size-[535px]">
-  <div class="h-full relative mt-16 md:mt-32">
-    <div class="h-full flex min-h-full z-10 relative ">
-      <div class="h-full max-w-(--breakpoint-lg) md:mx-auto flex flex-col md:flex-row bg-[url('/_assets/img/desk.svg')] bg-bottom-right bg-no-repeat bg-contain">
-        <div class="md:w-2/3 mb-10 mx-4">
-          <h1
-            class="font-bold font-hany text-3xl md:text-6xl leading-[100%] text-black leading-tight"
-          >
-            {{ title | safe }}
-          </h1>
+{%- set formUrl = "https://docs.google.com/forms/d/e/1FAIpQLSe_aJwPcxRE_1LtocSHlrjHqDOQhm763ElOiURhH6KCOzL96g/viewform" -%}
+{%- set offers = [
+  { key: "fix_desk", title: fix_desk_title, content: fix_desk_content, image: fix_desk_image, alt: ui.fixDeskImageAlt, price: fix_desk_price, cta: apply_here, rotate: "-rotate-3" },
+  { key: "flex_desk", title: flex_desk_title, content: flex_desk_content, image: flex_desk_image, alt: ui.flexDeskImageAlt, price: flex_desk_price, cta: apply_here, rotate: "rotate-3" }
+] -%}
+{%- if features.room and room_title and room_image -%}
+  {%- set offers = offers.concat([{ key: "room", title: room_title, content: room_content, image: room_image, alt: ui.roomImageAlt, price: room_price, cta: room_apply or apply_here, rotate: "-rotate-3" }]) -%}
+{%- endif -%}
+<div class="flex flex-col gap-20 md:gap-32 pb-20 bg-[url('/_assets/img/smiley.svg')] bg-left-top bg-no-repeat bg-size-[535px]">
+  <div class="relative mt-16 md:mt-32">
+    <div class="max-w-(--breakpoint-lg) mx-auto px-4 md:min-h-80 bg-[url('/_assets/img/desk.svg')] bg-bottom-right bg-no-repeat bg-size-[40%]">
+      <div class="md:w-2/3">
+        <h1 class="font-bold font-hany text-4xl md:text-6xl leading-tight text-black">
+          {{ title | safe }}
+        </h1>
+        {% if subtitle %}
+        <p class="font-bold text-2xl md:text-3xl text-black mt-4">{{ subtitle }}</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <div class="max-w-(--breakpoint-lg) w-full mx-auto px-4 flex flex-col md:flex-row gap-12">
+    <div class="md:w-1/2 relative h-96 md:h-auto md:min-h-96 shrink-0">
+      <img src="/_assets/images/uploads/IMG_3153.jpg" alt="{{ ui.workspaceImageAlt }}" loading="lazy" class="border-2 border-black rounded-xl absolute w-3/5 -rotate-5 left-0 top-15" />
+      <img src="/_assets/images/uploads/IMG_3146.jpg" alt="" loading="lazy" class="border-2 border-black rounded-xl rotate-10 absolute z-10 w-3/5 right-0 top-0" />
+    </div>
+    <div class="md:w-1/2 flex flex-col gap-4 justify-center">
+      <h2 class="font-bold font-hany text-3xl md:text-5xl leading-tight text-black">
+        {{ about_title or "About us" }}
+      </h2>
+      <div class="text-sm md:text-base text-black space-y-3">
+        {{ content | safe }}
+      </div>
+      <div>
+        <a href="/{{ page.lang }}/about" class="inline-block border border-black rounded-xl px-3 py-1 transition-colors duration-150 hover:bg-black hover:text-white">{{ about_cta or "More about us" }}</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="max-w-(--breakpoint-lg) w-full mx-auto px-4 flex flex-col gap-12">
+    <div class="flex flex-col gap-4">
+      <h2 class="font-bold font-hany text-3xl md:text-5xl leading-tight text-black">
+        {{ join_title or "Join us" }}
+      </h2>
+      {%- set availabilityLine = availability_room if features.room and availability_room else availability %}
+      {% if availabilityLine %}
+      <p>{{ availabilityLine | safe }}</p>
+      {% endif %}
+    </div>
+    <div class="grid gap-12 {{ "md:grid-cols-3" if offers | length > 2 else "md:grid-cols-2" }}">
+      {%- for offer in offers %}
+      <div class="flex flex-col gap-4">
+        <div class="border-2 border-black rounded-xl overflow-hidden {{ offer.rotate }}">
+          {% image offer.image, offer.alt, 600, "w-full aspect-[4/3] object-cover" %}
+        </div>
+        <h3 class="text-3xl font-hany mt-4">{{ offer.title }}</h3>
+        <div class="font-bold">{{ offer.price | safe }}</div>
+        <div class="space-y-3">{{ offer.content | safe }}</div>
+        <div class="mt-auto">
+          <a
+            href="{{ formUrl }}"
+            data-ph-location="{{ offer.key }}"
+            target="_blank"
+            rel="noopener"
+            class="inline-block border border-black rounded-xl px-3 py-1 transition-colors duration-150 hover:bg-black hover:text-white"
+          >{{ offer.cta or "Apply here" }}</a>
         </div>
       </div>
+      {%- endfor %}
     </div>
   </div>
-  <div class="flex mx-8 w-full max-w-screen-xl md:mx-auto">
-    <div class="w-1/2 relative h-120">
-      <img src="/_assets/images/uploads/IMG_3153.jpg" class="border-2 border-black rounded-xl absolute h-80 -rotate-5 left-4 top-15" />
-      <img src="/_assets/images/uploads/IMG_3146.jpg" class="border-2 border-black rounded-xl rotate-10 absolute z-10 w-80 left-15" />
-    </div>
-    <div class="w-1/2 flex flex-col gap-2 justify-center">
-      <h2 class="font-bold font-hany text-3xl md:text-5xl leading-[100%] text-black leading-tight">
-        About us
+
+  <div class="flex flex-col gap-8">
+    <div class="max-w-(--breakpoint-lg) w-full mx-auto px-4 flex flex-col gap-4">
+      <h2 class="font-bold font-hany text-3xl md:text-5xl leading-tight text-black">
+        {{ trial_title or "Book a trial day" }}
       </h2>
-      <p>Since we moved to our new space in Kreuzberg, we still have some free desks available which you can rent.</p>
-      <div>
-        <a href="/{{ page.lang }}/about" class="border border-black rounded rounded-xl px-2">More about us</a>
-      </div>
+      <p class="md:max-w-2xl">{{ trial_day_info }}</p>
     </div>
+    <!-- Google Calendar Appointment Scheduling begin -->
+    {# hl follows the page, not the calendar owner's Google account – without it
+       the widget renders in the owner's language (French) for every visitor. #}
+    <iframe
+      id="trial-calendar"
+      src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ0FoukPWZdqXbKnv_z-1zWdyWML1c9FK6N1wqoegSUCbQiTVbGy5GgwRDh_A7qtVNwqgg_FWPwb?gv=true&hl={{ page.lang }}"
+      style="border: 0"
+      width="100%"
+      frameborder="0"
+      loading="lazy"
+      title="{{ ui.trialDayCalendar }}"
+      class="h-260 md:h-176"
+    ></iframe>
+    <!-- end Google Calendar Appointment Scheduling -->
   </div>
-  <div class="flex flex-col mx-8 gap-2 w-full max-w-screen-xl md:mx-auto px-4">
-    <h2 class="font-bold font-hany text-3xl md:text-5xl leading-[100%] text-black leading-tight">
-      Join us
+
+  {%- set faqItems = (faq or []) if features.room else ((faq or []) | rejectattr("room")) %}
+  {% if faqItems | length %}
+  <div class="max-w-(--breakpoint-lg) w-full mx-auto px-4" id="faq">
+    <h2 class="font-bold font-hany text-3xl md:text-5xl leading-tight text-black mb-8">
+      {{ faq_title or "Questions & answers" }}
     </h2>
-    <p>Since we moved to our new space in Kreuzberg, we still have some free desks available which you can rent.</p>
-    <div>
-      <a href="/{{ page.lang }}/about" class="border border-black rounded rounded-xl px-2">More about the space</a>
+    {#- The answers live in <details>, and not every crawler opens those – keep
+        the price, address, notice period and trial day in plain text as well. #}
+    {%- set keyFacts = key_facts_room if features.room and key_facts_room else key_facts %}
+    {% if keyFacts %}
+    <p class="md:max-w-2xl mb-8">{{ keyFacts | safe }}</p>
+    {% endif %}
+    <div class="md:max-w-2xl border-t border-b border-black divide-y divide-black">
+      {%- for item in faqItems %}
+      <details class="group py-4">
+        <summary class="cursor-pointer font-bold text-lgc list-none flex justify-between items-center gap-4">
+          <span>{{ item.q }}</span>
+          <span class="text-2xl leading-none transition group-open:rotate-45" aria-hidden="true">+</span>
+        </summary>
+        <div class="text-sm md:text-base mt-3 md:max-w-xl">{{ (item.a_room if features.room and item.a_room else item.a) | safe }}</div>
+      </details>
+      {%- endfor %}
     </div>
   </div>
-  <div class="flex mx-8 gap-6 w-full max-w-screen-xl md:mx-auto px-4">
-    <div class="flex flex-col gap-2">
-      <img src="/_assets/img/fix-desk.webp" class="border-2 border-black rounded-xl w-80 -rotate-3 left-4 top-15" />
-      <h3 class="text-3xl font-hany">Fix Desk</h3>
-      <div>
-        <p>Want to have your own desk, store some things, leave your books and other stuff you need such as technical devices or artworks? You want to  be able to come to OFFICINA 24/7?</p>
-        <p>Then you can rent a Fixdesk! It gives you the opportunity to build up your own working area with everything you need!</p>
-      </div>
-      <div>
-        <a href="/{{ page.lang }}/about" class="border border-black rounded rounded-xl px-2">Apply here</a>
-      </div>
-    </div>
-
-    <div class="flex flex-col gap-2">
-      <img src="/_assets/img/flex-desk.webp" class="border-2 border-black rounded-xl w-80 rotate-3 left-4 top-15" />
-      <h3 class="text-3xl font-hany">Flex Desk</h3>
-      <div>
-        <p>Want to have your own desk, store some things, leave your books and other stuff you need such as technical devices or artworks? You want to  be able to come to OFFICINA 24/7?</p>
-        <p>Then you can rent a Fixdesk! It gives you the opportunity to build up your own working area with everything you need!</p>
-      </div>
-      <div>
-        <a href="/{{ page.lang }}/about" class="border border-black rounded rounded-xl px-2">Apply here</a>
-      </div>
-    </div>
-
-    <div class="flex flex-col gap-2">
-      <img src="/_assets/img/rent-space.webp" class="border-2 border-black rounded-xl w-80 -rotate-3 left-4 top-15" />
-      <h3 class="text-3xl font-hany">Rent space</h3>
-      <div>
-        <p>Want to have your own desk, store some things, leave your books and other stuff you need such as technical devices or artworks? You want to  be able to come to OFFICINA 24/7?</p>
-        <p>Then you can rent a Fixdesk! It gives you the opportunity to build up your own working area with everything you need!</p>
-      </div>
-      <div>
-        <a href="/{{ page.lang }}/about" class="border border-black rounded rounded-xl px-2">Apply here</a>
-      </div>
-    </div>
-  </div>
-  <div class="flex flex-col mx-8 gap-2 w-full max-w-screen-xl md:mx-auto px-4">
-    <h2 class="font-bold font-hany text-3xl md:text-5xl leading-[100%] text-black leading-tight">
-      Book a trial day
-    </h2>
-    <p>Since we moved to our new space in Kreuzberg, we still have some free desks available which you can rent.</p>
-  </div>
-
-  <!-- Google Calendar Appointment Scheduling begin -->
-  <iframe
-    src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ0FoukPWZdqXbKnv_z-1zWdyWML1c9FK6N1wqoegSUCbQiTVbGy5GgwRDh_A7qtVNwqgg_FWPwb?gv=true"
-    style="border: 0"
-    width="100%"
-    frameborder="0"
-    class="h-260 md:h-176"
-  ></iframe>
-  <!-- end Google Calendar Appointment Scheduling -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {%- for item in faqItems %}
+      {
+        "@type": "Question",
+        "name": {{ item.q | dump | safe }},
+        "acceptedAnswer": { "@type": "Answer", "text": {{ (item.a_room if features.room and item.a_room else item.a) | striptags | dump | safe }} }
+      }{% if not loop.last %},{% endif %}
+      {%- endfor %}
+    ]
+  }
+  </script>
+  {% endif %}
 </div>

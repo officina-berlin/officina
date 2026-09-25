@@ -26,41 +26,34 @@
 }
 
 @theme {
+  /* v4 defines breakpoints in rem, and html is 20px here, so the defaults
+     would be 25% wider than the v3 ones the layouts were built for. */
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1536px;
+
+  --font-sans: Inter, 'Helvetica Neue', Arial, sans-serif;
+  --font-hany: Hany, Inter, sans-serif;
+
   --color-kobi: #efb0ca;
+  --color-salmon: #f7c2aa;
+  --color-blue-custom: #4d4dc3;
+  --color-yellow-custom: #fdff00;
 
-  --font-size-smc: 0.8rem;
-  --font-size-lgc: 1.2rem;
-  --font-size-7xl: 5rem;
-  --font-hany: Hany;
+  --text-smc: 0.8rem;
+  --text-lgc: 1.2rem;
+  --text-7xl: 5rem;
 
-  --line-height-65: 1.7rem;
-
-  --min-height-180: 720px;
-
-  --z-index-401: 401;
-
-  --height-168: 42rem;
-  --height-176: 44rem;
-  --height-252: 63rem;
-  --height-260: 65rem;
-
-  --inset-n2: -2em;
-  --inset-n4: -4em;
-  --inset-n6: -6em;
-
-  --rotate-n180: -180deg;
-  --rotate-n90: -90deg;
-  --rotate-n45: -45deg;
-  --rotate-0: 0;
-  --rotate-20: 20deg;
-  --rotate-45: 45deg;
-  --rotate-90: 90deg;
-  --rotate-180: 180deg;
+  --leading-65: 1.7rem;
 }
 
-@source "./src/**/*.njk";
-@source "./node_modules/leaflet/dist/*.js";
-@source "./node_modules/glightbox/dist/*.js";
+/* Paths are relative to this file. `.md` is scanned too: page front matter
+   (FAQ answers, desk copy) contains inline HTML with Tailwind classes. */
+@source "../../**/*.njk";
+@source "../../**/*.md";
+@source "../../../node_modules/leaflet/dist/*.js";
 
 /*
   The default border color has changed to `currentcolor` in Tailwind CSS v4,
@@ -89,29 +82,14 @@ html {
   z-index: 900;
 }
 
-/*.font-plex {
-  font-family: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
-  font-display: swap;
-}*/
+/* salmon / blue-custom / yellow-custom live in the @theme block above so the
+   colours get hover: and other variants like any other Tailwind colour. */
 
-.font-sans {
-  font-family: 'Inter';
-}
-
-.text-salmon {
-  color: #f7c2aa;
-}
-
-.bg-blue-custom {
-  background-color: #4d4dc3;
-}
-
-.bg-yellow-custom {
-  background-color: #fdff00;
-}
-
-.text-blue-custom {
-  color: #4d4dc3;
+/* Keeps the black display type on about.njk readable where it overlaps the
+   duotone photo, without covering the photo with a panel. */
+.text-halo {
+  text-shadow: 0 0 0.6em rgba(255, 255, 255, 0.95),
+    0 0 1.4em rgba(255, 255, 255, 0.8);
 }
 
 .bg-yellow-circle::after {
@@ -156,4 +134,9 @@ html {
 
   transition: transform 1s;
   transform-style: preserve-3d;
+}
+
+/* FAQ accordion: hide the default disclosure triangle (Safari) */
+summary::-webkit-details-marker {
+  display: none;
 }

@@ -74,23 +74,37 @@ layout: layout.njk
     </div>
   </div>
 
-  <div class="flex flex-col gap-8">
+  <div class="flex flex-col gap-8" id="trial-calendar-box">
     <div class="max-w-(--breakpoint-lg) w-full mx-auto px-4 flex flex-col gap-4">
       <h2 class="font-bold font-hany text-3xl md:text-5xl leading-tight text-black">
         {{ trial_title or "Book a trial day" }}
       </h2>
       <p class="md:max-w-2xl">{{ trial_day_info }}</p>
+      {#- Google only hears about the visitor once they ask for the calendar
+          (see the privacy policy): the iframe has no src until this button is
+          clicked, and index.js swaps the two. #}
+      <div data-calendar-consent class="md:max-w-2xl border-2 border-black rounded-xl p-6 flex flex-col gap-4 items-start">
+        <p class="text-sm">
+          {{ ui.calendarNotice }}
+          <a href="/{{ page.lang }}/privacy" class="underline underline-offset-4">{{ ui.privacyPolicy }}</a>
+        </p>
+        <button
+          type="button"
+          data-load-calendar
+          class="cursor-pointer inline-block border border-black rounded-xl bg-black text-white px-3 py-1 transition-colors duration-150 hover:bg-white hover:text-black"
+        >{{ ui.calendarLoad }}</button>
+      </div>
     </div>
     <!-- Google Calendar Appointment Scheduling begin -->
     {# hl follows the page, not the calendar owner's Google account – without it
        the widget renders in the owner's language (French) for every visitor. #}
     <iframe
       id="trial-calendar"
-      src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ0FoukPWZdqXbKnv_z-1zWdyWML1c9FK6N1wqoegSUCbQiTVbGy5GgwRDh_A7qtVNwqgg_FWPwb?gv=true&hl={{ page.lang }}"
+      data-src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ0FoukPWZdqXbKnv_z-1zWdyWML1c9FK6N1wqoegSUCbQiTVbGy5GgwRDh_A7qtVNwqgg_FWPwb?gv=true&hl={{ page.lang }}"
+      hidden
       style="border: 0"
       width="100%"
       frameborder="0"
-      loading="lazy"
       title="{{ ui.trialDayCalendar }}"
       class="h-260 md:h-176"
     ></iframe>

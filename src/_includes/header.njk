@@ -1,10 +1,13 @@
+{#- Not fixed: it scrolls away with the page. That is also why the boosted nav
+    links swap with `show:window:top` – `show:top` would scroll <main> to the
+    top of the viewport and leave the header above it. -#}
 <header
-  class="z-900 flex bg-white fixed top-0 inset-x-0 z-100 xl:h-16 items-center border-b border-black"
+  class="flex bg-white xl:h-16 items-center border-b border-black"
 >
   <div
     class="w-full max-w-(--breakpoint-xl) relative mx-auto px-4 flex flex-col xl:flex-row"
   >
-    <div class="flex shrink-0 py-4 xl:py-0">
+    <div class="flex shrink-0 items-center py-2 xl:py-0">
       <button
         type="button"
         id="sidebar-open"
@@ -19,11 +22,11 @@
           <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"></path>
         </svg>
       </button>
-      <a href="/{{ page.lang }}/" class="font-bold text-xl pt-1 md:pt-1">
+      <a href="/{{ page.lang }}/" class="font-bold text-xl pt-1">
         <img
           src="/_assets/img/logo.gif"
-          class="object-contain"
-          height="59px"
+          class="object-contain h-10 w-auto xl:h-[59px]"
+          height="59"
           alt="Officina Kreuzberg"
           title="Officina Kreuzberg"
         />
@@ -35,44 +38,44 @@
     >
       <a
         href="/{{ page.lang }}/"
-        class="py-2 px-4 my-3 mr-5 transition-colors duration-150 hover:text-blue-custom"
+        class="py-2 px-4 my-1 xl:my-3 mr-5 transition-colors duration-150 hover:text-blue-custom"
         hx-get="/{{ page.lang }}/"
         hx-select="main"
         hx-target="main"
-        hx-swap="outerHTML show:top"
+        hx-swap="outerHTML show:window:top"
         hx-push-url="true"
       >
         {{ menu.desks }}
       </a>
       <a
         href="/{{page.lang}}/about"
-        class="py-2 px-4 my-3 mr-5 transition-colors duration-150 hover:text-blue-custom"
+        class="py-2 px-4 my-1 xl:my-3 mr-5 transition-colors duration-150 hover:text-blue-custom"
         hx-get="/{{page.lang}}/about"
         hx-select="main"
         hx-target="main"
-        hx-swap="outerHTML show:top"
+        hx-swap="outerHTML show:window:top"
         hx-push-url="true"
       >
         {{ menu.about }}
       </a>
       <a
         href="/{{ page.lang }}/collective"
-        class="py-2 px-4 my-3 mr-5 transition-colors duration-150 hover:text-blue-custom"
+        class="py-2 px-4 my-1 xl:my-3 mr-5 transition-colors duration-150 hover:text-blue-custom"
         hx-get="/{{ page.lang }}/collective"
         hx-select="main"
         hx-target="main"
-        hx-swap="outerHTML show:top"
+        hx-swap="outerHTML show:window:top"
         hx-push-url="true"
       >
         {{ menu.collective }}
       </a>
       <a
         href="/{{ page.lang }}/events"
-        class="py-2 px-4 my-3 mr-5 transition-colors duration-150 hover:text-blue-custom"
+        class="py-2 px-4 my-1 xl:my-3 mr-5 transition-colors duration-150 hover:text-blue-custom"
         hx-get="/{{ page.lang }}/events"
         hx-select="main"
         hx-target="main"
-        hx-swap="outerHTML show:top"
+        hx-swap="outerHTML show:window:top"
         hx-push-url="true"
       >
         {{ menu.events }}
@@ -81,7 +84,7 @@
         href="https://docs.google.com/forms/d/e/1FAIpQLSe_aJwPcxRE_1LtocSHlrjHqDOQhm763ElOiURhH6KCOzL96g/viewform"
         target="_blank"
         data-ph-location="header"
-        class="w-2/3 xl:w-auto bg-black text-white border border-black rounded-xl py-2 px-4 my-3 transition-colors duration-150 hover:bg-white hover:text-black"
+        class="w-2/3 xl:w-auto bg-black text-white border border-black rounded-xl py-2 px-4 my-2 xl:my-3 transition-colors duration-150 hover:bg-white hover:text-black"
       >
         {{ menu.contact }}
       </a>

@@ -80,10 +80,6 @@ html {
   scroll-behavior: smooth;
 }
 
-.z-900 {
-  z-index: 900;
-}
-
 /* salmon / blue-custom / yellow-custom live in the @theme block above so the
    colours get hover: and other variants like any other Tailwind colour. */
 

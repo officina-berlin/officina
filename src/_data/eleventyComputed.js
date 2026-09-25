@@ -25,7 +25,6 @@ const items = {
 // it is empty for English, which hides the note.
 const ui = {
   en: {
-    scrollDown: 'Scroll down',
     openSidebar: 'Open the sidebar',
     workspaceImageAlt: 'The Officina Kreuzberg workspace in Berlin',
     fixDeskImageAlt: 'Fix desk at Officina Kreuzberg',
@@ -54,7 +53,6 @@ const ui = {
     englishOnly: '',
   },
   de: {
-    scrollDown: 'Nach unten scrollen',
     openSidebar: 'Menü öffnen',
     workspaceImageAlt: 'Der Arbeitsraum von Officina Kreuzberg in Berlin',
     fixDeskImageAlt: 'Fix Desk bei Officina Kreuzberg',

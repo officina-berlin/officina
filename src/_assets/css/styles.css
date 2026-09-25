@@ -87,47 +87,6 @@ html {
 /* salmon / blue-custom / yellow-custom live in the @theme block above so the
    colours get hover: and other variants like any other Tailwind colour. */
 
-/* Keeps the black display type on about.njk readable where it overlaps the
-   duotone photo, without covering the photo with a panel. */
-.text-halo {
-  text-shadow: 0 0 0.6em rgba(255, 255, 255, 0.95),
-    0 0 1.4em rgba(255, 255, 255, 0.8);
-}
-
-.bg-yellow-circle::after {
-  content: '';
-  border-radius: 50%;
-  background-color: #fdff00;
-  width: 1em;
-  position: absolute;
-  bottom: -77em;
-  left: -25em;
-  height: 110rem;
-  width: 110rem;
-  -webkit-user-selectz-index: 1;
-}
-
-@media (max-width: 639px) {
-  .bg-yellow-circle::after {
-    content: '';
-    border-radius: 50%;
-    background-color: #fdff00;
-    width: 1em;
-    position: absolute;
-    bottom: -41em;
-    left: -25em;
-    height: 49rem;
-    width: 50rem;
-    -webkit-user-selectz-index: 1;
-  }
-}
-
-@media (min-width: 768px) {
-  .md\:overflow-unset {
-    overflow: unset;
-  }
-}
-
 .card-container {
   position: absolute;
   width: 100%;

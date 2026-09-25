@@ -50,6 +50,7 @@ const ui = {
     creditsAnd: 'and',
     creditsHim: 'him',
     emailLabel: 'Email',
+    imprint: 'Imprint',
     englishOnly: '',
   },
   de: {
@@ -76,6 +77,7 @@ const ui = {
     creditsAnd: 'und',
     creditsHim: 'ihm',
     emailLabel: 'E-Mail',
+    imprint: 'Impressum',
     englishOnly: 'Nur auf Englisch',
   },
 };

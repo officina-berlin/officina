@@ -1,0 +1,57 @@
+---
+layout: layout.njk
+---
+{#- The facts come from src/_data/legal.json so both languages stay in sync;
+    only the labels are per page. Empty fields are left out. -#}
+<div class="max-w-(--breakpoint-lg) mx-auto px-4 mt-16 md:mt-32 mb-24">
+  <h1 class="font-bold font-hany text-4xl md:text-6xl leading-tight text-black">
+    {{ title }}
+  </h1>
+  <p class="mt-4">{{ intro }}</p>
+  <div class="md:max-w-2xl mt-12 space-y-10">
+    <section>
+      <h2 class="font-bold font-hany text-2xl mb-3">{{ provider_label or "Provider" }}</h2>
+      <p>
+        {{ legal.name }}{% if legal.legal_form %} ({{ legal.legal_form }}){% endif %}<br />
+        {{ legal.street }}<br />
+        {{ legal.postal_code }} {{ legal.city }}
+      </p>
+      {% if legal.represented_by %}
+      <p class="mt-3">{{ represented_label or "Represented by" }}: {{ legal.represented_by }}</p>
+      {% endif %}
+    </section>
+    <section>
+      <h2 class="font-bold font-hany text-2xl mb-3">{{ contact_label or "Contact" }}</h2>
+      <p>
+        {{ email_label or "Email" }}:
+        <a href="mailto:{{ legal.email }}" class="underline">{{ legal.email }}</a>
+        {% if legal.phone %}<br />{{ phone_label or "Phone" }}: {{ legal.phone }}{% endif %}
+      </p>
+    </section>
+    {% if legal.register %}
+    <section>
+      <h2 class="font-bold font-hany text-2xl mb-3">{{ register_label or "Register entry" }}</h2>
+      <p>{{ legal.register }}</p>
+    </section>
+    {% endif %}
+    {% if legal.vat_id %}
+    <section>
+      <h2 class="font-bold font-hany text-2xl mb-3">{{ vat_label or "VAT ID" }}</h2>
+      <p>{{ legal.vat_id }}</p>
+    </section>
+    {% endif %}
+    {% if legal.responsible %}
+    <section>
+      <h2 class="font-bold font-hany text-2xl mb-3">{{ responsible_label }}</h2>
+      <p>
+        {{ legal.responsible }}<br />
+        {{ legal.street }}<br />
+        {{ legal.postal_code }} {{ legal.city }}
+      </p>
+    </section>
+    {% endif %}
+    {% if content | trim %}
+    <div class="space-y-3">{{ content | safe }}</div>
+    {% endif %}
+  </div>
+</div>

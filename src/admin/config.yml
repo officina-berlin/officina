@@ -113,6 +113,25 @@ collections:
           - { label: 'Description', name: 'body', widget: 'markdown' }
           - { label: 'Featured image', name: 'image', widget: 'image' }
 
+  - name: 'legal'
+    label: 'Legal'
+    files:
+      # Shared by /en/imprint and /de/imprint. Empty fields are hidden.
+      - label: 'Imprint details'
+        name: 'imprint'
+        file: 'src/_data/legal.json'
+        fields:
+          - { label: 'Name', name: 'name', widget: 'string' }
+          - { label: 'Legal form (e.g. e.V., GbR)', name: 'legal_form', widget: 'string', required: false }
+          - { label: 'Represented by (names of the people legally responsible)', name: 'represented_by', widget: 'string', required: false }
+          - { label: 'Street', name: 'street', widget: 'string' }
+          - { label: 'Postal code', name: 'postal_code', widget: 'string' }
+          - { label: 'City', name: 'city', widget: 'string' }
+          - { label: 'Email', name: 'email', widget: 'string' }
+          - { label: 'Phone', name: 'phone', widget: 'string', required: false }
+          - { label: 'Register entry (court and number)', name: 'register', widget: 'string', required: false }
+          - { label: 'VAT ID', name: 'vat_id', widget: 'string', required: false }
+          - { label: 'Responsible for content (§ 18 MStV)', name: 'responsible', widget: 'string', required: false }
   - name: 'artist' # Used in routes, e.g., /admin/collections/blog
     label: 'Residents (archive)' # Used in the UI
     folder: 'src/en/artists' # The path to the folder where the documents are stored

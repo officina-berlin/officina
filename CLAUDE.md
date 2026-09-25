@@ -32,7 +32,7 @@ Adding a section to a page usually means adding a front-matter field plus the ma
 
 ### Layouts
 
-`layout.njk` is the shell: `<head>` (SEO, hreflang, JSON-LD LocalBusiness with the real address and price range), header, `<main hx-boost="true">`, footer, cookie banner. Page layouts wrapping it: `index.njk` (home, both languages — hero, about, desk cards, trial-day calendar, FAQ), `collective.njk`, `artists.njk`, `events.njk`, and `landing.njk` (about — just includes `about.njk` + `what-we-do.njk` + `contact.njk`).
+`layout.njk` is the shell: `<head>` (SEO, hreflang, JSON-LD LocalBusiness with the real address and price range), header, `<main hx-boost="true">`, footer, cookie banner. Page layouts wrapping it: `index.njk` (home, both languages — hero, about, desk cards, trial-day calendar, FAQ), `collective.njk`, `artists.njk`, `events.njk`, and `landing.njk` (about — just includes `about.njk` + `what-we-do.njk` + `contact.njk`). `imprint.njk` renders `/en/imprint` and `/de/imprint`: the legal facts come from `src/_data/legal.json` (one copy for both languages, editable in the CMS), only the labels are page front matter, and empty fields are hidden.
 
 SEO fields on a page: `seo_title` → `<title>`, `meta_description` → description/OG, `image` → OG image, `title` → the visible H1. Pages set `sitemapIgnore: true` to stay out of `sitemap.xml.njk`.
 
@@ -50,7 +50,7 @@ Two conventions coexist and they are easy to mix up:
 - The `{% image src, alt, width, classes %}` shortcode (`.eleventy.js`) prefixes a leading `.`, so `/src/…` resolves to the on-disk file. It runs eleventy-img, emits WebP at a single width (default 600) into `_site/img/`, and **throws if `alt` is undefined**.
 - For raw `src`/`href` in HTML (e.g. the OG tag in `layout.njk`), the served path is `/_assets/…` — `layout.njk` does `image | replace('/src/', '/')` to convert. `src/_assets` is passthrough-copied verbatim.
 
-Vendored browser deps (leaflet, htmx, posthog, IBM Plex) are passthrough-copied out of `node_modules` in `.eleventy.js` and imported as plain ES modules by `src/_assets/js/index.js`; there is no bundler.
+Vendored browser deps (leaflet, htmx, posthog) are passthrough-copied out of `node_modules` in `.eleventy.js` and imported as plain ES modules by `src/_assets/js/index.js`; there is no bundler.
 
 ### i18n
 

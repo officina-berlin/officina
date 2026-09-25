@@ -9,7 +9,7 @@ meta_description: >-
 sitemapIgnore: true
 intro: Information according to § 5 DDG (German Digital Services Act).
 provider_label: Provider
-represented_label: Represented by
+represented_label: Represented by the partners
 contact_label: Contact
 email_label: Email
 phone_label: Phone

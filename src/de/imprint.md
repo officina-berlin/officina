@@ -9,7 +9,7 @@ meta_description: >-
 sitemapIgnore: true
 intro: Angaben gemäß § 5 DDG
 provider_label: Anbieter
-represented_label: Vertreten durch
+represented_label: Vertreten durch die Gesellschafter
 contact_label: Kontakt
 email_label: E-Mail
 phone_label: Telefon

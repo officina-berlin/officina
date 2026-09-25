@@ -14,6 +14,6 @@ contact_label: Contact
 email_label: Email
 phone_label: Phone
 register_label: Register entry
-vat_label: VAT ID
+vat_label: VAT ID according to § 27a UStG
 responsible_label: Responsible for the content according to § 18 (2) MStV
 ---

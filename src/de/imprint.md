@@ -14,6 +14,6 @@ contact_label: Kontakt
 email_label: E-Mail
 phone_label: Telefon
 register_label: Registereintrag
-vat_label: Umsatzsteuer-ID
+vat_label: Umsatzsteuer-Identifikationsnummer gemäß § 27a UStG
 responsible_label: Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV
 ---

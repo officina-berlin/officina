@@ -10,25 +10,42 @@ layout: layout.njk
   {%- set offers = offers.concat([{ key: "room", title: room_title, content: room_content, image: room_image, alt: ui.roomImageAlt, price: room_price, cta: room_apply or apply_here, rotate: "-rotate-3" }]) -%}
 {%- endif -%}
 <div class="flex flex-col gap-20 md:gap-32 pb-20 bg-[url('/_assets/img/smiley.svg')] bg-left-top bg-no-repeat bg-size-[535px]">
-  <div class="relative mt-10 md:mt-16">
-    <div class="max-w-(--breakpoint-lg) mx-auto px-4 md:min-h-80 bg-[url('/_assets/img/desk.svg')] bg-bottom-right bg-no-repeat bg-size-[40%]">
-      <div class="md:w-2/3">
-        <h1 class="font-bold font-hany text-4xl md:text-6xl leading-tight text-black">
-          {{ title | safe }}
-        </h1>
-        {% if subtitle %}
-        <p class="font-bold text-2xl md:text-3xl text-black mt-4">{{ subtitle }}</p>
-        {% endif %}
+  {#- First screen: what this is, what is free right now, the two next steps,
+      and the people – the photos back up "run by the people who work here". #}
+  <div class="max-w-(--breakpoint-lg) w-full mx-auto px-4 mt-10 md:mt-16 flex flex-col md:flex-row gap-10 md:gap-12 md:items-center">
+    <div class="md:w-[55%] flex flex-col gap-4">
+      <h1 class="font-bold font-hany text-4xl lg:text-5xl leading-tight text-black">
+        {{ title | safe }}
+      </h1>
+      {% if subtitle %}
+      <p class="font-bold text-xl lg:text-2xl text-black">{{ subtitle }}</p>
+      {% endif %}
+      {%- set availabilityLine = availability_room if features.room and availability_room else availability %}
+      {% if availabilityLine %}
+      <p>{{ availabilityLine | safe }}</p>
+      {% endif %}
+      <div class="flex flex-wrap gap-3 mt-2">
+        <a
+          href="#trial-calendar-box"
+          class="inline-block border border-black rounded-xl bg-black text-white px-4 py-2 transition-colors duration-150 hover:bg-white hover:text-black"
+        >{{ trial_cta or "Book a free trial day" }}</a>
+        <a
+          href="{{ formUrl }}"
+          data-ph-location="hero"
+          target="_blank"
+          rel="noopener"
+          class="inline-block border border-black rounded-xl px-4 py-2 transition-colors duration-150 hover:bg-black hover:text-white"
+        >{{ apply_here or "Apply for a desk" }}</a>
       </div>
     </div>
-  </div>
-
-  <div class="max-w-(--breakpoint-lg) w-full mx-auto px-4 flex flex-col md:flex-row gap-12">
-    <div class="md:w-1/2 md:self-center relative aspect-[10/9] shrink-0">
+    <div class="md:w-[45%] relative aspect-[10/9] shrink-0">
       {% image "/src/_assets/images/uploads/IMG_3153.jpg", ui.workspaceImageAlt, 600, "border-2 border-black rounded-xl absolute w-3/5 h-auto -rotate-5 left-[3%] top-15" %}
       {% image "/src/_assets/images/uploads/IMG_3146.jpg", "", 600, "border-2 border-black rounded-xl rotate-10 absolute z-10 w-3/5 h-auto right-[5%] top-[3%]" %}
     </div>
-    <div class="md:w-1/2 flex flex-col gap-4 justify-center">
+  </div>
+
+  <div class="max-w-(--breakpoint-lg) w-full mx-auto px-4 bg-[url('/_assets/img/desk.svg')] bg-no-repeat bg-right-bottom bg-size-[45%]">
+    <div class="md:w-1/2 flex flex-col gap-4">
       <h2 class="font-bold font-hany text-3xl md:text-5xl leading-tight text-black">
         {{ about_title or "About us" }}
       </h2>
@@ -46,10 +63,6 @@ layout: layout.njk
       <h2 class="font-bold font-hany text-3xl md:text-5xl leading-tight text-black">
         {{ join_title or "Join us" }}
       </h2>
-      {%- set availabilityLine = availability_room if features.room and availability_room else availability %}
-      {% if availabilityLine %}
-      <p>{{ availabilityLine | safe }}</p>
-      {% endif %}
     </div>
     <div class="grid gap-12 {{ "md:grid-cols-3" if offers | length > 2 else "md:grid-cols-2" }}">
       {%- for offer in offers %}
@@ -74,7 +87,7 @@ layout: layout.njk
     </div>
   </div>
 
-  <div class="flex flex-col gap-8" id="trial-calendar-box">
+  <div class="flex flex-col gap-8 scroll-mt-8" id="trial-calendar-box">
     <div class="max-w-(--breakpoint-lg) w-full mx-auto px-4 flex flex-col gap-4">
       <h2 class="font-bold font-hany text-3xl md:text-5xl leading-tight text-black">
         {{ trial_title or "Book a trial day" }}

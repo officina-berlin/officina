@@ -42,6 +42,7 @@ collections:
           - { label: 'Desk button label', name: 'apply_here', widget: 'string' }
           - { label: 'Room button label', name: 'room_apply', widget: 'string', required: false }
           - { label: 'Trial day title', name: 'trial_title', widget: 'string', required: false }
+          - { label: 'Trial day button (first screen)', name: 'trial_cta', widget: 'string', required: false }
           - { label: 'Trial day info', name: 'trial_day_info', widget: 'string' }
           - { label: 'FAQ title', name: 'faq_title', widget: 'string', required: false }
           - { label: 'Key facts (plain text under the FAQ title – price, address, notice period, trial day)', name: 'key_facts', widget: 'text', required: false }

@@ -44,6 +44,7 @@ about_title: Über uns
 about_cta: Mehr über uns
 join_title: Mach mit
 trial_title: Probetag buchen
+trial_cta: Kostenlosen Probetag buchen
 apply_here: Platz anfragen
 room_apply: Zimmer anfragen
 trial_day_info: >-

@@ -42,6 +42,7 @@ about_title: About us
 about_cta: More about us
 join_title: Join us
 trial_title: Book a trial day
+trial_cta: Book a free trial day
 apply_here: Apply for a desk
 room_apply: Apply for the room
 trial_day_info: >-

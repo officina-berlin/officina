@@ -3,6 +3,7 @@ layout: index.njk
 permalink: /de/index.html
 title: Coworking in Berlin Kreuzberg
 subtitle: Getragen von den Menschen, die hier arbeiten.
+price_from: Ab 155 €/Monat
 seo_title: Coworking in Berlin Kreuzberg ab 155 € | Officina Kreuzberg
 meta_description: >-
   Selbstverwalteter Coworking Space am Hermannplatz in Berlin. Fix Desks und
@@ -13,10 +14,6 @@ meta_description_room: >-
   Desks und ein eigenes Zimmer für bis zu drei Personen. Zugang rund um die Uhr,
   große Küche, Terrasse. Komm zum kostenlosen Probetag.
 image: /src/_assets/images/uploads/officina_space_web_2.jpg
-availability: 'Aktuell frei: Fix Desks und Flex Desks.'
-availability_room: >-
-  Aktuell frei: Fix Desks, Flex Desks und ab November ein eigenes Zimmer für bis
-  zu drei Personen.
 fix_desk_title: Fix Desk
 fix_desk_content: >-
   Dein eigener Schreibtisch, dauerhaft. Lass Bildschirm, Bücher und Technik

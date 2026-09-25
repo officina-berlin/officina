@@ -3,6 +3,7 @@ layout: index.njk
 permalink: /en/index.html
 title: Coworking in Berlin Kreuzberg
 subtitle: Run by the people who work here.
+price_from: From 155 €/month
 seo_title: Coworking in Berlin Kreuzberg from 155 € | Officina Kreuzberg
 meta_description: >-
   Member-run coworking space near Hermannplatz, Berlin. Fix desks and flex desks

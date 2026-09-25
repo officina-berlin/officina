@@ -16,12 +16,13 @@ collections:
         fields:
           - { label: 'Title (H1)', name: 'title', widget: 'string' }
           - { label: 'Subtitle', name: 'subtitle', widget: 'string', required: false }
+          - { label: 'Price line (first screen, e.g. "From 155 €/month")', name: 'price_from', widget: 'string', required: false }
           - { label: 'SEO title (browser tab / Google)', name: 'seo_title', widget: 'string' }
           - { label: 'SEO description (Google snippet)', name: 'meta_description', widget: 'text' }
           - { label: 'SEO description – used instead while the room is on offer', name: 'meta_description_room', widget: 'text', required: false }
           - { label: 'Intro', name: 'body', widget: 'markdown' }
-          - { label: 'Availability line (under the intro)', name: 'availability', widget: 'text', required: false }
-          - { label: 'Availability line – used instead while the room is on offer', name: 'availability_room', widget: 'text', required: false }
+          - { label: 'Availability line (only in /llms.txt, not shown on the page)', name: 'availability', widget: 'text', required: false }
+          - { label: 'Availability line (/llms.txt) – used instead while the room is on offer', name: 'availability_room', widget: 'text', required: false }
           - { label: "'About us' title", name: 'about_title', widget: 'string', required: false }
           - { label: "'About us' button", name: 'about_cta', widget: 'string', required: false }
           - { label: "'Join us' title", name: 'join_title', widget: 'string', required: false }

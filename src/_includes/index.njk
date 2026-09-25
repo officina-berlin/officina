@@ -10,8 +10,8 @@ layout: layout.njk
   {%- set offers = offers.concat([{ key: "room", title: room_title, content: room_content, image: room_image, alt: ui.roomImageAlt, price: room_price, cta: room_apply or apply_here, rotate: "-rotate-3" }]) -%}
 {%- endif -%}
 <div class="flex flex-col gap-20 md:gap-32 pb-20 bg-[url('/_assets/img/smiley.svg')] bg-left-top bg-no-repeat bg-size-[535px]">
-  {#- First screen: what this is, what is free right now, the two next steps,
-      and the people – the photos back up "run by the people who work here". #}
+  {#- First screen: what this is, what it costs, the two next steps, and the
+      people – the photos back up "run by the people who work here". #}
   <div class="max-w-(--breakpoint-lg) w-full mx-auto px-4 mt-10 md:mt-16 flex flex-col md:flex-row gap-10 md:gap-12 md:items-center">
     <div class="md:w-[55%] flex flex-col gap-4">
       <h1 class="font-bold font-hany text-4xl lg:text-5xl leading-tight text-black">
@@ -20,9 +20,8 @@ layout: layout.njk
       {% if subtitle %}
       <p class="font-bold text-xl lg:text-2xl text-black">{{ subtitle }}</p>
       {% endif %}
-      {%- set availabilityLine = availability_room if features.room and availability_room else availability %}
-      {% if availabilityLine %}
-      <p>{{ availabilityLine | safe }}</p>
+      {% if price_from %}
+      <p class="self-start border-2 border-black rounded-xl bg-kobi px-3 py-1 -rotate-2 font-bold text-lg lg:text-xl">{{ price_from | safe }}</p>
       {% endif %}
       <div class="flex flex-wrap gap-3 mt-2">
         <a

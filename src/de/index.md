@@ -1,8 +1,9 @@
 ---
-layout: desks.njk
+layout: index.njk
 permalink: /de/index.html
 title: Coworking in Berlin Kreuzberg
 subtitle: Getragen von den Menschen, die hier arbeiten.
+price_from: Ab 155 €/Monat
 seo_title: Coworking in Berlin Kreuzberg ab 155 € | Officina Kreuzberg
 meta_description: >-
   Selbstverwalteter Coworking Space am Hermannplatz in Berlin. Fix Desks und
@@ -13,22 +14,18 @@ meta_description_room: >-
   Desks und ein eigenes Zimmer für bis zu drei Personen. Zugang rund um die Uhr,
   große Küche, Terrasse. Komm zum kostenlosen Probetag.
 image: /src/_assets/images/uploads/officina_space_web_2.jpg
-availability: 'Aktuell frei: Fix Desks und Flex Desks.'
-availability_room: >-
-  Aktuell frei: Fix Desks, Flex Desks und ab November ein eigenes Zimmer für bis
-  zu drei Personen.
 fix_desk_title: Fix Desk
 fix_desk_content: >-
   Dein eigener Schreibtisch, dauerhaft. Lass Bildschirm, Bücher und Technik
   stehen, komm und geh, wann du willst – rund um die Uhr, auch am Wochenende.
-fix_desk_image: /src/_assets/images/uploads/officina_space_web_8.jpg
+fix_desk_image: /src/_assets/img/fix-desk.webp
 fix_desk_price: 255 €/Monat<br/>inkl. MwSt.
 flex_desk_title: Flex Desk
 flex_desk_content: >-
   Du brauchst nur deinen Laptop und einen guten Stuhl? Einen Flex Desk teilst du
   dir mit anderen Mitgliedern. Du arbeitest an drei Tagen pro Woche plus
   Wochenende hier und bist Teil des Kollektivs wie alle anderen.
-flex_desk_image: /src/_assets/images/uploads/officina_space_web_1.jpg
+flex_desk_image: /src/_assets/img/flex-desk.webp
 flex_desk_price: 155 €/Monat<br/>inkl. MwSt.
 room_title: Eigenes Zimmer
 room_content: >-
@@ -38,8 +35,13 @@ room_content: >-
   seid oder allein. Alles, was es auch an den Schreibtischen gibt – Zugang rund
   um die Uhr, Küche, Terrasse, Internet – und ihr seid Teil des Kollektivs wie
   alle anderen.
-room_image: /src/_assets/images/uploads/officina_space_web_7.jpg
+room_image: /src/_assets/img/rent-space.webp
 room_price: 600 €/Monat<br/>inkl. MwSt.
+about_title: Über uns
+about_cta: Mehr über uns
+join_title: Mach mit
+trial_title: Probetag buchen
+trial_cta: Kostenlosen Probetag buchen
 apply_here: Platz anfragen
 room_apply: Zimmer anfragen
 trial_day_info: >-

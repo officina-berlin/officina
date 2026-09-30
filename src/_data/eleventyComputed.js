@@ -25,7 +25,6 @@ const items = {
 // it is empty for English, which hides the note.
 const ui = {
   en: {
-    scrollDown: 'Scroll down',
     openSidebar: 'Open the sidebar',
     workspaceImageAlt: 'The Officina Kreuzberg workspace in Berlin',
     fixDeskImageAlt: 'Fix desk at Officina Kreuzberg',
@@ -50,10 +49,17 @@ const ui = {
     creditsAnd: 'and',
     creditsHim: 'him',
     emailLabel: 'Email',
+    imprint: 'Imprint',
+    privacy: 'Privacy',
+    privacyPolicy: 'Privacy policy',
+    // The trial-day calendar is a Google iframe that only loads on request.
+    calendarNotice:
+      'The booking calendar is provided by Google. When you open it, ' +
+      'Google receives your IP address and may set cookies.',
+    calendarLoad: 'Show the calendar',
     englishOnly: '',
   },
   de: {
-    scrollDown: 'Nach unten scrollen',
     openSidebar: 'Menü öffnen',
     workspaceImageAlt: 'Der Arbeitsraum von Officina Kreuzberg in Berlin',
     fixDeskImageAlt: 'Fix Desk bei Officina Kreuzberg',
@@ -76,6 +82,13 @@ const ui = {
     creditsAnd: 'und',
     creditsHim: 'ihm',
     emailLabel: 'E-Mail',
+    imprint: 'Impressum',
+    privacy: 'Datenschutz',
+    privacyPolicy: 'Datenschutzerklärung',
+    calendarNotice:
+      'Der Buchungskalender kommt von Google. Wenn du ihn öffnest, erhält ' +
+      'Google deine IP-Adresse und kann Cookies setzen.',
+    calendarLoad: 'Kalender anzeigen',
     englishOnly: 'Nur auf Englisch',
   },
 };

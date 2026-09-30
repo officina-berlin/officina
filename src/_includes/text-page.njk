@@ -1,0 +1,13 @@
+---
+layout: layout.njk
+---
+{#- Long legal text written in Markdown (the privacy policy). The page body is
+    styled here, since there is no typography plugin. -#}
+<div class="max-w-(--breakpoint-lg) mx-auto px-4 mt-10 md:mt-16 mb-24">
+  <h1 class="font-bold font-hany text-4xl md:text-6xl leading-tight text-black">
+    {{ title }}
+  </h1>
+  <div class="md:max-w-2xl mt-8 [&_h2]:font-hany [&_h2]:text-2xl [&_h2]:leading-tight [&_h2]:mt-12 [&_h2]:mb-3 [&_h3]:font-bold [&_h3]:mt-6 [&_h3]:mb-1 [&_p]:mt-3 [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:mt-3 [&_li]:mt-1 [&_a]:underline [&_a]:underline-offset-4 [&_a]:break-words">
+    {{ content | safe }}
+  </div>
+</div>

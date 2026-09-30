@@ -1,68 +1,41 @@
 ---
 layout: layout.njk
 ---
-
-<div>
-  <div class="h-full min-h-full relative mt-16 md:my-32">
-    <div class="h-full flex min-h-full z-10 relative">
-      <div class="h-full max-w-screen-xl mx-auto px-4 flex flex-col md:flex-row">
-        <div class="md:w-2/3 mb-10">
-          <h1
-            class="font-bold italic text-5xl md:text-6xl text-black leading-tight"
-          >
-            {{ title }}
-          </h1>
-          <div class="text-sm md:text-base text-black my-4 space-y-3">
-            {{ content | safe }}
-          </div>
+<div class="flex flex-col gap-20 md:gap-32 pb-20 bg-[url('/_assets/img/smiley.svg')] bg-left-top bg-no-repeat bg-size-[535px]">
+  {%- set heroText = content -%}
+  {%- set heroAlt = ui.collectiveImageAlt -%}
+  {% include 'page-hero.njk' %}
+  <div class="max-w-(--breakpoint-lg) w-full mx-auto px-4">
+    <div class="grid gap-x-12 gap-y-16 sm:grid-cols-2 md:grid-cols-3">
+      {%- for collective in collections.collective | sortByPosition %}
+      <div class="flex flex-col gap-3">
+        <div class="border-2 border-black rounded-xl overflow-hidden {{ ['-rotate-2', 'rotate-2', '-rotate-1'][loop.index0 % 3] }}">
+          {% image collective.data.image, collective.data.name, 394, "w-full h-auto" %}
         </div>
-        <div class="md:ml-16 md:w-1/3 relative">
-          {% image image, ui.collectiveImageAlt %}
-        </div>
-      </div>
-    </div>
-    <div class="absolute -bottom-4 left-0 right-0 hidden md:block">
-      <div class="text-sm italic text-center">{{ ui.scrollDown }}</div>
-      <div class="text-center text-2xl">&#9660;</div>
-    </div>
-  </div>
-  <div class="bg-blue-custom py-24">
-    <div class="h-full max-w-screen-xl mx-auto px-4">
-      <div class="grid md:grid-cols-3 gap-10">
-        {%- for collective in collections.collective | sortByPosition -%}
-        <div class="flex flex-col gap-2">
-          <div class="w-full">
-            {% image collective.data.image, collective.data.name, 394 %}
-          </div>
-          <div class="flex gap-2 items-center">
-          <h2 class="text-white font-plex text-salmon text-2xl font-bold">
-            {{ collective.data.name }}
-          </h2>
+        <div class="flex gap-2 items-baseline flex-wrap mt-4">
+          <h2 class="font-hany text-2xl leading-tight">{{ collective.data.name }}</h2>
           {% if collective.data.pronouns %}
-            <em class="text-sm text-salmon pt-1">({{ collective.data.pronouns }})</em>
-          {% endif %}
-          </div>
-          {% if collective.data.period %}
-          <div class="text-white italic">{{ collective.data.period }}</div>
-          {% endif %}
-          <div class="text-white text-smc leading-6 space-y-3">
-            {{ collective.templateContent | safe }}
-          </div>
-          {% if collective.data.website %}
-          <div>
-            <a
-              target="blank"
-              rel="noopener"
-              href="https://{{ collective.data.website }}"
-              class="text-salmon underline underline-offset-4 transition-colors duration-150 hover:text-white"
-            >
-              {{ collective.data.website}}
-            </a>
-          </div>
+          <em class="text-sm">({{ collective.data.pronouns }})</em>
           {% endif %}
         </div>
-        {%- endfor -%}
+        {% if collective.data.period %}
+        <div class="italic text-sm">{{ collective.data.period }}</div>
+        {% endif %}
+        <div class="text-smc leading-6 space-y-3">
+          {{ collective.templateContent | safe }}
+        </div>
+        {% if collective.data.website %}
+        <div>
+          <a
+            target="_blank"
+            rel="noopener"
+            href="https://{{ collective.data.website }}"
+            class="text-smc underline underline-offset-4 decoration-1 hover:decoration-2"
+          >{{ collective.data.website }}</a>
+        </div>
+        {% endif %}
       </div>
+      {%- endfor %}
     </div>
   </div>
 </div>

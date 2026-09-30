@@ -1,0 +1,30 @@
+{#- Heading shared by the inner pages, in the style of the home page: title,
+    intro and a tilted photo. Set before including it:
+    - heroText: the intro (HTML)
+    - heroAlt: alt text for the page's `image`
+    - heroCta / heroCtaHref: optional button under the intro -#}
+<div class="max-w-(--breakpoint-lg) w-full mx-auto px-4 mt-10 md:mt-16 flex flex-col md:flex-row gap-12 md:items-center">
+  <div class="{{ 'md:w-3/5' if image else 'md:w-2/3' }} flex flex-col gap-4">
+    <h1 class="font-bold font-hany text-4xl md:text-6xl leading-tight text-black">
+      {{ title }}
+    </h1>
+    <div class="text-sm md:text-base text-black space-y-3">
+      {{ heroText | safe }}
+    </div>
+    {% if heroCtaHref %}
+    <div>
+      <a
+        href="{{ heroCtaHref }}"
+        class="inline-block border border-black rounded-xl px-3 py-1 transition-colors duration-150 hover:bg-black hover:text-white"
+      >{{ heroCta }}</a>
+    </div>
+    {% endif %}
+  </div>
+  {% if image %}
+  <div class="md:w-2/5 px-4 md:px-0">
+    <div class="border-2 border-black rounded-xl overflow-hidden rotate-3">
+      {% image image, heroAlt, 600, "w-full h-auto" %}
+    </div>
+  </div>
+  {% endif %}
+</div>

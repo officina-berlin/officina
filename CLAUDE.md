@@ -58,7 +58,7 @@ Vendored browser deps (leaflet, htmx, posthog) are passthrough-copied out of `no
 
 ### Client behaviour
 
-Navigation is htmx-boosted: nav links carry `hx-get`/`hx-select="main"`/`hx-target="main"`/`hx-push-url`, and `<main>` has `hx-boost`. **Consequence: all page-level JS in `src/_assets/js/index.js` is registered on `htmx:load`, not `DOMContentLoaded`.** Anything new (map init, listeners) must follow that or it will break after the first client-side navigation. PostHog only initialises when the `officina-tracking` cookie is `accepted`, and is disabled on `localhost`.
+Navigation is htmx-boosted: nav links carry `hx-get`/`hx-select="main"`/`hx-target="main"`/`hx-push-url`, and `<main>` has `hx-boost`. **Consequence: all page-level JS in `src/_assets/js/index.js` is registered on `htmx:load`, not `DOMContentLoaded`.** Anything new (map init, listeners) must follow that or it will break after the first client-side navigation. `htmx:load` fires once per loaded element – `<main>` plus the three language switches the nav links pull in with `hx-select-oob`, so the header and footer switches follow the page – so look things up in `event.target`, not `document`, or the handler runs four times per navigation. PostHog only initialises when the `officina-tracking` cookie is `accepted`, and is disabled on `localhost`.
 
 ### CMS and deploy
 

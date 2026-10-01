@@ -3,8 +3,13 @@ import { map as lMap, tileLayer, marker, Browser } from './leaflet.js';
 import posthog from './posthog.js';
 
 // MAP
-document.body.addEventListener('htmx:load', function () {
-  if (document.getElementById('map')) {
+// htmx:load fires once per element it brings in: <body> on the first load,
+// then <main> and each language switch (see `hx-select-oob` in header.njk) on
+// every navigation. Look only inside the element that just loaded, or the map
+// would be set up again for each of those and Leaflet throws "Map container is
+// already initialized".
+document.body.addEventListener('htmx:load', function (event) {
+  if (event.target.querySelector('#map')) {
     const position = [52.48839587601789, 13.419732288736586];
 
     const options = {
@@ -164,12 +169,13 @@ document.addEventListener(
 let trialCalendarObserver = null;
 let trialCalendarCaptured = false;
 
-document.body.addEventListener('htmx:load', function () {
+document.body.addEventListener('htmx:load', function (event) {
   if (trialCalendarCaptured || !('IntersectionObserver' in window)) return;
 
   // The section, not the iframe: the iframe stays hidden until the visitor
-  // asks for it, and a hidden element never intersects.
-  const calendar = document.getElementById('trial-calendar-box');
+  // asks for it, and a hidden element never intersects. Scoped to the loaded
+  // element for the same reason as the map.
+  const calendar = event.target.querySelector('#trial-calendar-box');
   if (!calendar) return;
 
   if (trialCalendarObserver) trialCalendarObserver.disconnect();

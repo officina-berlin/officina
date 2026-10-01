@@ -31,9 +31,27 @@
           title="Officina Kreuzberg"
         />
       </a>
+      {#- The language switch sits in the top bar on small screens rather than
+          in the menu, so it is visible without opening anything. The xl one
+          is at the end of #sidebar below. `otherLangUrl` is set in layout.njk. -#}
+      <a
+        id="lang-switch"
+        href="{{ otherLangUrl }}"
+        hreflang="{{ otherLang }}"
+        lang="{{ otherLang }}"
+        class="ml-auto flex items-center gap-2 py-2 text-smc font-bold font-hany transition-colors duration-150 hover:text-blue-custom xl:hidden"
+      >
+        <svg aria-hidden="true" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        {{ "Deutsch" if otherLang == "de" else "English" }}
+      </a>
     </div>
+    {#- These links swap only <main>, so the header and footer stay from the
+        first page loaded. `hx-select-oob` (inherited by every link here) pulls
+        the language switches from the new page too – otherwise they would
+        keep pointing at the first page's translation. -#}
     <div
       id="sidebar"
+      hx-select-oob="#lang-switch,#lang-switch-xl,#footer-lang-switch"
       class="flex flex-col items-start pb-4 xl:pb-0 ml-6 xl:flex-row xl:items-stretch xl:grow xl:justify-end hidden xl:flex text-smc font-bold font-hany"
     >
       <a
@@ -87,6 +105,16 @@
         class="w-2/3 xl:w-auto bg-black text-white border border-black rounded-xl py-2 px-4 my-2 xl:my-3 transition-colors duration-150 hover:bg-white hover:text-black"
       >
         {{ menu.contact }}
+      </a>
+      <a
+        id="lang-switch-xl"
+        href="{{ otherLangUrl }}"
+        hreflang="{{ otherLang }}"
+        lang="{{ otherLang }}"
+        class="hidden xl:flex items-center gap-2 py-2 px-4 my-3 ml-5 transition-colors duration-150 hover:text-blue-custom"
+      >
+        <svg aria-hidden="true" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        {{ "Deutsch" if otherLang == "de" else "English" }}
       </a>
     </div>
   </div>

@@ -5,9 +5,12 @@
     </h2>
     <p>{{ how_it_works_description or we_share_skills_description }}</p>
   </div>
-  <div class="grid gap-12 md:grid-cols-3">
+  {#- Three columns only from lg: a column is ~290px there, just enough for
+      "Künstlerresidenz" and "Veranstaltungen" at text-2xl. At md they were
+      ~200px and the German titles ran into the next column. -#}
+  <div class="grid gap-12 lg:grid-cols-3">
     <div class="border-t-2 border-black pt-6 flex flex-col gap-4">
-      <h3 class="text-3xl font-hany">{{ collective_title or "The collective" }}</h3>
+      <h3 class="text-2xl font-hany">{{ collective_title or "The collective" }}</h3>
       <p>{{ the_collective }}</p>
       <div class="mt-auto">
         <a
@@ -17,7 +20,7 @@
       </div>
     </div>
     <div class="border-t-2 border-black pt-6 flex flex-col gap-4">
-      <h3 class="text-3xl font-hany">{{ events_title or "Events" }}</h3>
+      <h3 class="text-2xl font-hany">{{ events_title or "Events" }}</h3>
       <p>{{ events }}</p>
       <div class="mt-auto">
         <a
@@ -27,7 +30,7 @@
       </div>
     </div>
     <div class="border-t-2 border-black pt-6 flex flex-col gap-4">
-      <h3 class="text-3xl font-hany">{{ residency_title or "Artist residency (archive)" }}</h3>
+      <h3 class="text-2xl font-hany">{{ residency_title or "Artist residency (archive)" }}</h3>
       <p>{{ art_residency }}</p>
       <div class="mt-auto">
         <a

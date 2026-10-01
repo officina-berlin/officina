@@ -2,10 +2,17 @@
     intro and a tilted photo. Set before including it:
     - heroText: the intro (HTML)
     - heroAlt: alt text for the page's `image`
-    - heroCta / heroCtaHref: optional button under the intro -#}
+    - heroCta / heroCtaHref: optional button under the intro
+    The title shares its row with the photo, so it is sized to its column:
+    the home page's text-5xl from lg, and below that 10% of the column width
+    (`cqi`), capped at text-4xl. That keeps "Veranstaltungen", the longest word
+    so far, on one line down to 320px wide screens; at the full-width pages'
+    text-6xl it ran under the photo. Not `hyphens-auto`: it also splits words
+    that would fit on the next line ("getra-gen"). `break-words` only cuts a
+    word wider than the whole column, should the CMS ever get a longer one. -#}
 <div class="max-w-(--breakpoint-lg) w-full mx-auto px-4 mt-10 md:mt-16 flex flex-col md:flex-row gap-12 md:items-center">
-  <div class="{{ 'md:w-3/5' if image else 'md:w-2/3' }} flex flex-col gap-4">
-    <h1 class="font-bold font-hany text-4xl md:text-6xl leading-tight text-black">
+  <div class="{{ 'md:w-3/5' if image else 'md:w-2/3' }} @container flex flex-col gap-4">
+    <h1 class="font-bold font-hany text-[length:min(var(--text-4xl),10cqi)] lg:text-5xl leading-tight text-black break-words">
       {{ title }}
     </h1>
     <div class="text-sm md:text-base text-black space-y-3">

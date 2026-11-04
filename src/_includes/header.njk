@@ -99,8 +99,12 @@
         {{ menu.events }}
       </a>
       <a
-        href="https://docs.google.com/forms/d/e/1FAIpQLSe_aJwPcxRE_1LtocSHlrjHqDOQhm763ElOiURhH6KCOzL96g/viewform"
-        target="_blank"
+        href="/{{ page.lang }}/apply/"
+        hx-get="/{{ page.lang }}/apply/"
+        hx-select="main"
+        hx-target="main"
+        hx-swap="outerHTML show:window:top"
+        hx-push-url="true"
         data-ph-location="header"
         class="w-2/3 xl:w-auto bg-black text-white border border-black rounded-xl py-2 px-4 my-2 xl:my-3 transition-colors duration-150 hover:bg-white hover:text-black"
       >

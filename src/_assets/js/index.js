@@ -84,10 +84,11 @@ posthog.register({ site_language: document.documentElement.lang });
 
 // Conversion tracking
 //
-// Every way out of the site that counts as interest: the Google form, the email
-// address, the social profiles. Matching on href rather than on a hand-placed
-// attribute means a new link in a FAQ answer or a translated page is counted
-// without anyone remembering to annotate it.
+// Every link that counts as interest: the application form, the email address,
+// the social profiles. Matching on href rather than on a hand-placed attribute
+// means a new link in a FAQ answer or a translated page is counted without
+// anyone remembering to annotate it. Sending the form is not an event of its
+// own: it lands on /<lang>/apply/thanks/, and that page view is the conversion.
 //
 // Our own profiles only, not the whole of instagram.com/facebook.com: the events
 // archive is a wall of links to past facebook.com/events/… and instagram.com/p/…
@@ -99,7 +100,7 @@ const socialProfiles = [
 ];
 
 function conversionEventFor(href) {
-  if (href.includes('docs.google.com/forms')) return 'apply_click';
+  if (/^\/(en|de)\/apply\/?(?:[?#]|$)/.test(href)) return 'apply_click';
   if (href.startsWith('mailto:')) return 'email_click';
   if (socialProfiles.some((profile) => href.includes(profile))) {
     return 'social_click';
@@ -238,6 +239,31 @@ window.addEventListener('blur', function () {
 
   trialCalendarInteracted = true;
   posthog.capture('trial_calendar_interact');
+});
+
+// Application form
+//
+// A plain POST to Netlify (see apply.njk), so the page stays until Netlify
+// answers – a second click in that time would file a second card on Trello.
+// Delegated and bound once, like the sidebar: the form sits in <main>. The
+// browser has already checked the required fields when `submit` fires.
+document.addEventListener('submit', function (event) {
+  if (!(event.target instanceof HTMLFormElement)) return;
+  if (event.target.getAttribute('name') !== 'waiting-list') return;
+
+  event.target
+    .querySelector('[data-apply-submit]')
+    ?.setAttribute('disabled', '');
+});
+
+// The back button from the thanks page restores this page from the bfcache,
+// disabled button included.
+window.addEventListener('pageshow', function (event) {
+  if (!event.persisted) return;
+
+  document
+    .querySelector('form[name="waiting-list"] [data-apply-submit]')
+    ?.removeAttribute('disabled');
 });
 
 // Cookie consent

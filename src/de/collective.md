@@ -16,4 +16,4 @@ Uns ist wichtig, mehr zu teilen als nur einen Raum. Wir essen zusammen, helfen u
 
 _Die Vorstellungen der Mitglieder sind auf Englisch._
 
-_Interesse mitzumachen? [Bewirb dich um einen Schreibtisch](https://docs.google.com/forms/d/e/1FAIpQLSe_aJwPcxRE_1LtocSHlrjHqDOQhm763ElOiURhH6KCOzL96g/viewform)._
+_Interesse mitzumachen? [Bewirb dich um einen Schreibtisch](/de/apply/)._

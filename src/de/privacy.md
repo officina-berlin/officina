@@ -65,9 +65,13 @@ Sobald du ihn öffnest, erhält Google deine IP-Adresse und technische Daten dei
 
 Google kann Daten auch an die Google LLC in den USA übermitteln; das stützt sich auf das EU-US Data Privacy Framework. Mehr dazu: <a href="https://policies.google.com/privacy?hl=de" target="_blank" rel="noopener">Datenschutzerklärung von Google</a>.
 
-## Anfrage für einen Platz (Google Formulare)
+## Anfrage für einen Platz (Formular)
 
-Die Schaltflächen „Platz anfragen“ führen zu einem Formular bei Google Formulare. Erst dort gibst du Daten ein, und erst beim Aufruf erhält Google deine IP-Adresse. Die Angaben im Formular nutzen wir, um deine Anfrage zu bearbeiten und einen Probetag zu vereinbaren (Art. 6 Abs. 1 lit. b DSGVO). Google verarbeitet sie für uns als Auftragsverarbeiter.
+Mit dem Formular auf der Seite „Platz anfragen“ schickst du uns deinen Namen, deine E-Mail-Adresse, was du machst, welchen Platz du suchst, ab wann und für wie lange – und wenn du magst, deine Website, wie du uns gefunden hast, deine Adresse für die Rechnungen und eine Nachricht. Wir nutzen diese Angaben, um deine Anfrage zu bearbeiten, dich zu einem Probetag einzuladen und, wenn es für beide Seiten passt, den Vertrag und die Rechnungen vorzubereiten (Art. 6 Abs. 1 lit. b DSGVO).
+
+Das Formular nimmt Netlify entgegen (siehe „Hosting“) und speichert die Anfrage für uns. Netlify prüft jede Anfrage mit dem Dienst Akismet (Automattic Inc., USA) auf Spam; dafür erhält Akismet den Inhalt und technische Daten wie deine IP-Adresse. Danach überträgt unsere Automatisierung (n8n, auf einem Server von DigitalOcean, LLC, USA) die Angaben auf eine Karte in Trello (Atlassian), wo das Kollektiv die Anfragen bearbeitet, und meldet die Anfrage in unserem internen Slack-Kanal (Slack Technologies). Du bekommst eine Bestätigung per E-Mail mit einem Link, um einen Probetag zu buchen.
+
+Netlify, DigitalOcean, Atlassian und Slack verarbeiten die Daten für uns als Auftragsverarbeiter. Soweit Daten außerhalb der EU verarbeitet werden, stützt sich das auf das EU-US Data Privacy Framework bzw. auf Standardvertragsklauseln der EU-Kommission. Wird aus deiner Anfrage keine Mitgliedschaft, löschen wir deine Angaben, sobald wir sie nicht mehr brauchen, um dir einen Platz anzubieten.
 
 ## Kontakt per E-Mail
 
@@ -87,4 +91,4 @@ Du hast das Recht auf Auskunft (Art. 15 DSGVO), Berichtigung (Art. 16), Löschun
 
 Du kannst dich außerdem bei einer Datenschutz-Aufsichtsbehörde beschweren. Für uns zuständig ist die Berliner Beauftragte für Datenschutz und Informationsfreiheit, Alt-Moabit 59–61, 10555 Berlin.
 
-Stand: September 2026
+Stand: November 2026

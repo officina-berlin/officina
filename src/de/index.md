@@ -119,7 +119,7 @@ faq:
       nicht bellen, machen wir Ausnahmen – frag uns, bevor du einen mitbringst.
   - q: Wie komme ich an einen Schreibtisch?
     a: >-
-      Füll das <a href="https://docs.google.com/forms/d/e/1FAIpQLSe_aJwPcxRE_1LtocSHlrjHqDOQhm763ElOiURhH6KCOzL96g/viewform" target="_blank" class="underline">Kontaktformular</a>
+      Füll das <a href="/de/apply/" class="underline">Kontaktformular</a>
       aus und erzähl uns kurz, was du machst. Wir laden dich zu einem
       kostenlosen Probetag ein; wenn es für beide Seiten passt, suchst du dir
       einen Platz aus.

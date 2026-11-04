@@ -1,7 +1,7 @@
 ---
 layout: layout.njk
 ---
-{%- set formUrl = "https://docs.google.com/forms/d/e/1FAIpQLSe_aJwPcxRE_1LtocSHlrjHqDOQhm763ElOiURhH6KCOzL96g/viewform" -%}
+{%- set formUrl = "/" ~ page.lang ~ "/apply/" -%}
 {%- set offers = [
   { key: "fix_desk", title: fix_desk_title, content: fix_desk_content, image: fix_desk_image, alt: ui.fixDeskImageAlt, price: fix_desk_price, cta: apply_here, rotate: "-rotate-3" },
   { key: "flex_desk", title: flex_desk_title, content: flex_desk_content, image: flex_desk_image, alt: ui.flexDeskImageAlt, price: flex_desk_price, cta: apply_here, rotate: "rotate-3" }
@@ -31,8 +31,6 @@ layout: layout.njk
         <a
           href="{{ formUrl }}"
           data-ph-location="hero"
-          target="_blank"
-          rel="noopener"
           class="inline-block border border-black rounded-xl px-4 py-2 transition-colors duration-150 hover:bg-black hover:text-white"
         >{{ apply_here or "Apply for a desk" }}</a>
       </div>
@@ -76,8 +74,6 @@ layout: layout.njk
           <a
             href="{{ formUrl }}"
             data-ph-location="{{ offer.key }}"
-            target="_blank"
-            rel="noopener"
             class="inline-block border border-black rounded-xl px-3 py-1 transition-colors duration-150 hover:bg-black hover:text-white"
           >{{ offer.cta or "Apply here" }}</a>
         </div>

@@ -1,0 +1,11 @@
+---
+layout: layout.njk
+---
+{#- Where the application form lands after Netlify has taken it (the form's
+    `action` in apply.njk). Its page view is the conversion in PostHog. -#}
+<div class="pb-20">
+  {%- set heroText = content %}
+  {%- set heroCta = trial_cta %}
+  {%- set heroCtaHref = "/" ~ page.lang ~ "/#trial-calendar-box" %}
+  {% include 'page-hero.njk' %}
+</div>

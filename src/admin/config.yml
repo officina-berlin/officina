@@ -82,6 +82,48 @@ collections:
           - { label: 'Contact text', name: 'contact_text', widget: 'text' }
           - { label: 'Contact text – used instead while the room is on offer', name: 'contact_text_room', widget: 'text', required: false }
           - { label: 'Contact button', name: 'contact_cta', widget: 'string' }
+      # The form fields themselves (names, options) are fixed in
+      # src/_includes/apply.njk – the n8n workflow reads them. Only the wording
+      # is editable here.
+      - label: 'Apply for a desk (form)'
+        name: 'apply'
+        file: 'src/en/apply.md'
+        extension: md
+        fields:
+          - { label: 'Title (H1)', name: 'title', widget: 'string' }
+          - { label: 'SEO title (browser tab / Google)', name: 'seo_title', widget: 'string' }
+          - { label: 'SEO description (Google snippet)', name: 'meta_description', widget: 'text' }
+          - { label: 'Intro', name: 'intro', widget: 'text' }
+          - { label: 'Trial day button', name: 'trial_cta', widget: 'string', required: false }
+          - label: 'Form labels'
+            name: 'labels'
+            widget: 'object'
+            fields:
+              - { label: 'Full name', name: 'name', widget: 'string' }
+              - { label: 'Email', name: 'email', widget: 'string' }
+              - { label: 'What do you do?', name: 'activity', widget: 'string' }
+              - { label: 'What do you do? (hint under the question)', name: 'activity_hint', widget: 'string', required: false }
+              - { label: 'Website', name: 'website', widget: 'string' }
+              - { label: 'How did you find us?', name: 'referral', widget: 'string' }
+              - { label: 'Which desk?', name: 'desk', widget: 'string' }
+              - { label: 'From when?', name: 'start_date', widget: 'string' }
+              - { label: 'For how long?', name: 'term', widget: 'string' }
+              - { label: 'Address (title of the address fields)', name: 'address', widget: 'string' }
+              - { label: 'Address (hint: why we ask)', name: 'address_hint', widget: 'string', required: false }
+              - { label: 'Street and number', name: 'street', widget: 'string' }
+              - { label: 'Postal code', name: 'postal_code', widget: 'string' }
+              - { label: 'Anything else?', name: 'comment', widget: 'string' }
+              - { label: 'Send button', name: 'submit', widget: 'string' }
+              - { label: 'Privacy note (above the button, followed by a link to the privacy policy)', name: 'privacy', widget: 'text' }
+      - label: 'Apply – thank you page'
+        name: 'apply_thanks'
+        file: 'src/en/apply-thanks.md'
+        extension: md
+        fields:
+          - { label: 'Title (H1)', name: 'title', widget: 'string' }
+          - { label: 'SEO title (browser tab)', name: 'seo_title', widget: 'string' }
+          - { label: 'Text', name: 'body', widget: 'markdown' }
+          - { label: 'Trial day button', name: 'trial_cta', widget: 'string', required: false }
       - label: 'The Collective'
         name: 'Collective'
         file: 'src/en/collective.md'

@@ -57,6 +57,11 @@ const ui = {
       'Google receives your IP address and may set cookies.',
     calendarLoad: 'Show the calendar',
     englishOnly: '',
+    // The application form (apply.njk). Its option values are English in both
+    // languages – they end up on the Trello cards – so English needs no
+    // translations here, and German translates the labels only.
+    optional: 'optional',
+    formValues: {},
   },
   de: {
     openSidebar: 'Menü öffnen',
@@ -88,6 +93,13 @@ const ui = {
       'Google deine IP-Adresse und kann Cookies setzen.',
     calendarLoad: 'Kalender anzeigen',
     englishOnly: 'Nur auf Englisch',
+    optional: 'optional',
+    formValues: {
+      '1–2 months': '1–2 Monate',
+      '3–6 months': '3–6 Monate',
+      Longer: 'Länger',
+      'Not sure yet': 'Weiß ich noch nicht',
+    },
   },
 };
 

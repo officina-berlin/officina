@@ -115,7 +115,7 @@ faq:
       office and don't bark – ask us before you bring one.
   - q: How do I get a desk?
     a: >-
-      Fill out the <a href="https://docs.google.com/forms/d/e/1FAIpQLSe_aJwPcxRE_1LtocSHlrjHqDOQhm763ElOiURhH6KCOzL96g/viewform" target="_blank" class="underline">contact
+      Fill out the <a href="/en/apply/" class="underline">contact
       form</a> and tell us a bit about what you do. We'll invite you for a
       free trial day; if it works for both sides, you pick a desk.
   - q: Can I try it out first?

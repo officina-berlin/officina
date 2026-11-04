@@ -1,0 +1,139 @@
+---
+layout: layout.njk
+---
+{#- The application form for a desk (the "waiting list"). Netlify Forms takes
+    it: the build bot finds it in the deployed HTML through `data-netlify`,
+    keeps every submission (Netlify UI → Forms), and sends each verified one to
+    the n8n workflow that files it on the "Officina - People" Trello board
+    (Netlify UI → Project configuration → Notifications → Form submission
+    notifications).
+
+    Both languages post the same form, so the form name, the field names and
+    the option values are the contract with that workflow – change one there
+    too. Only the labels are translated; the values stay in English, the
+    language of the Trello cards. Netlify drops any field that was not in the
+    HTML at deploy time, so a new field needs a deploy before it arrives.
+
+    `hx-boost="false"`: <main> boosts every form inside it, and a boosted POST
+    would come back through htmx. A plain POST lets the browser load the thanks
+    page by itself. -#}
+{%- set l = labels or {} -%}
+{#- Desk names and prices come from the home page, which the CMS edits, so the
+    form cannot quote an old price. -#}
+{%- set home = collections.all | findByInputPath("./src/" ~ page.lang ~ "/index.md") -%}
+{%- set homeData = home.data if home else {} -%}
+{%- set deskOptions = [
+  { value: "Fix desk", title: homeData.fix_desk_title or "Fix desk", price: homeData.fix_desk_price },
+  { value: "Flex desk", title: homeData.flex_desk_title or "Flex desk", price: homeData.flex_desk_price }
+] -%}
+{%- if features.room and homeData.room_title -%}
+  {%- set deskOptions = deskOptions.concat([{ value: "Private room", title: homeData.room_title, price: homeData.room_price }]) -%}
+{%- endif -%}
+{%- set deskOptions = deskOptions.concat([{ value: "Not sure yet" }]) -%}
+{#- No minimum term, only a notice period: this is a rough idea for planning
+    the desks, not a commitment. -#}
+{%- set termValues = ["1–2 months", "3–6 months", "Longer", "Not sure yet"] -%}
+{%- set inputClass = "w-full border border-black rounded-xl bg-white px-3 py-2 focus:outline-2 focus:outline-offset-2 focus:outline-blue-custom" -%}
+
+{%- macro fieldLabel(text, required, markOptional=true) -%}
+<span class="font-bold">{{ text }}{% if not required and markOptional %} <span class="font-normal text-gray-600">({{ ui.optional }})</span>{% endif %}</span>
+{%- endmacro -%}
+
+{%- macro textField(name, label, type="text", required=false, autocomplete="", hint="", markOptional=true) -%}
+<label class="flex flex-col gap-1">
+  {{ fieldLabel(label, required, markOptional) }}
+  {%- if hint %}
+  <span class="text-sm text-gray-600">{{ hint }}</span>
+  {%- endif %}
+  {%- if type == "textarea" %}
+  <textarea name="{{ name }}" rows="4" class="{{ inputClass }}"{% if required %} required{% endif %}></textarea>
+  {%- else %}
+  <input type="{{ type }}" name="{{ name }}" class="{{ inputClass }}"{% if autocomplete %} autocomplete="{{ autocomplete }}"{% endif %}{% if required %} required{% endif %} />
+  {%- endif %}
+</label>
+{%- endmacro -%}
+
+<div class="flex flex-col gap-12 pb-20">
+  {%- set heroText = intro %}
+  {%- set heroCta = trial_cta %}
+  {%- set heroCtaHref = "/" ~ page.lang ~ "/#trial-calendar-box" %}
+  {% include 'page-hero.njk' %}
+
+  <div class="max-w-(--breakpoint-lg) w-full mx-auto px-4">
+    <form
+      name="waiting-list"
+      method="POST"
+      action="/{{ page.lang }}/apply/thanks/"
+      data-netlify="true"
+      netlify-honeypot="bot-field"
+      hx-boost="false"
+      class="md:max-w-2xl flex flex-col gap-6"
+    >
+      <input type="hidden" name="form-name" value="waiting-list" />
+      <input type="hidden" name="language" value="{{ page.lang }}" />
+      {#- Bots fill every field; Netlify drops a submission with this one set. #}
+      <p class="hidden" aria-hidden="true">
+        <label>Leave this empty: <input name="bot-field" tabindex="-1" autocomplete="off" /></label>
+      </p>
+
+      {{ textField("name", l.name or "Full name", required=true, autocomplete="name") }}
+      {{ textField("email", l.email or "Email", type="email", required=true, autocomplete="email") }}
+      {{ textField("activity", l.activity or "What do you do?", type="textarea", required=true, hint=l.activity_hint) }}
+      {{ textField("website", l.website or "Website or social media", autocomplete="url") }}
+      {{ textField("referral", l.referral or "How did you find us? Do you know someone here?") }}
+
+      <fieldset class="flex flex-col gap-2">
+        <legend class="font-bold mb-1">{{ l.desk or "Which desk?" }}</legend>
+        {%- for option in deskOptions %}
+        <label class="flex items-center gap-2 cursor-pointer">
+          <input type="radio" name="desk" value="{{ option.value }}" required class="size-4 shrink-0 accent-black" />
+          <span>
+            {{- option.title or ui.formValues[option.value] or option.value -}}
+            {%- if option.price %} <span class="text-gray-600">– {{ option.price | replace(r/<[^>]+>/g, " ") | striptags }}</span>{% endif -%}
+          </span>
+        </label>
+        {%- endfor %}
+      </fieldset>
+
+      <label class="flex flex-col gap-1 sm:w-1/2">
+        {{ fieldLabel(l.start_date or "From when?", true) }}
+        <input type="date" name="start_date" required class="{{ inputClass }}" />
+      </label>
+
+      <fieldset class="flex flex-col gap-2">
+        <legend class="font-bold mb-1">{{ l.term or "For how long?" }}</legend>
+        <div class="flex flex-wrap gap-x-6 gap-y-2">
+          {%- for value in termValues %}
+          <label class="flex items-center gap-2 cursor-pointer">
+            <input type="radio" name="term" value="{{ value }}" required class="size-4 shrink-0 accent-black" />
+            <span>{{ ui.formValues[value] or value }}</span>
+          </label>
+          {%- endfor %}
+        </div>
+      </fieldset>
+
+      {#- Only for the invoices, so optional: most applicants never take a desk,
+          and whoever does can give it at onboarding. #}
+      <fieldset class="flex flex-col gap-2">
+        <legend class="mb-1">{{ fieldLabel(l.address or "Address for the invoices", false) }}</legend>
+        <p class="text-sm text-gray-600 -mt-1">{{ l.address_hint or "We only need it if you take a desk." }}</p>
+        <div class="grid gap-6 sm:grid-cols-[2fr_1fr]">
+          {{ textField("street", l.street or "Street and number", autocomplete="street-address", markOptional=false) }}
+          {{ textField("postal_code", l.postal_code or "Postal code", autocomplete="postal-code", markOptional=false) }}
+        </div>
+      </fieldset>
+
+      {{ textField("comment", l.comment or "Anything else?", type="textarea") }}
+
+      <p class="text-sm">
+        {{ l.privacy or "We only use your answers to handle your application and arrange a trial day." }}
+        <a href="/{{ page.lang }}/privacy" class="underline underline-offset-4">{{ ui.privacyPolicy }}</a>
+      </p>
+      <button
+        type="submit"
+        data-apply-submit
+        class="cursor-pointer self-start inline-block border border-black rounded-xl bg-black text-white px-4 py-2 transition-colors duration-150 hover:bg-white hover:text-black disabled:opacity-50"
+      >{{ l.submit or "Send" }}</button>
+    </form>
+  </div>
+</div>

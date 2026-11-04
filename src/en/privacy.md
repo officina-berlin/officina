@@ -65,9 +65,13 @@ Once you open it, Google receives your IP address and technical data about your 
 
 Google may transfer data to Google LLC in the USA, based on the EU-US Data Privacy Framework. More: <a href="https://policies.google.com/privacy?hl=en" target="_blank" rel="noopener">Google's privacy policy</a>.
 
-## Applying for a desk (Google Forms)
+## Applying for a desk (form)
 
-The "Apply for a desk" buttons lead to a form on Google Forms. You only enter data there, and Google only receives your IP address when you open it. We use what you enter to handle your request and arrange a trial day (Art. 6(1)(b) GDPR). Google processes it for us as our processor.
+With the form on the "Apply for a desk" page, you send us your name, your email address, what you do, which desk you are looking for, from when and for how long – and, if you like, your website, how you found us, your address for the invoices and a message. We use this to handle your application, invite you for a trial day and, if it works for both sides, prepare the contract and the invoices (Art. 6(1)(b) GDPR).
+
+Netlify receives the form (see "Hosting") and stores the application for us. Netlify checks every application for spam with the Akismet service (Automattic Inc., USA), which receives the content and technical data such as your IP address. Our automation (n8n) then copies the answers to a card in Trello (Atlassian), where the collective handles the applications, and announces the application in our internal Slack channel (Slack Technologies). n8n runs on our own computer in our space in Berlin and stores the data there; the connection to it goes through a server of DigitalOcean, LLC (USA), which only forwards it. You get a confirmation email with a link to book a trial day.
+
+Netlify, DigitalOcean, Atlassian and Slack process the data for us as our processors. Where data is processed outside the EU, the transfer relies on the EU-US Data Privacy Framework or on the European Commission's standard contractual clauses. If your application does not lead to a membership, we delete your data once we no longer need it to offer you a desk.
 
 ## Contact by email
 
@@ -87,4 +91,4 @@ You have the right of access (Art. 15 GDPR), rectification (Art. 16), erasure (A
 
 You can also complain to a data protection authority. The authority responsible for us is the Berlin Commissioner for Data Protection and Freedom of Information (Berliner Beauftragte für Datenschutz und Informationsfreiheit), Alt-Moabit 59–61, 10555 Berlin.
 
-Last updated: September 2026
+Last updated: November 2026
